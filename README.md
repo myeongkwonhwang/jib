@@ -64,6 +64,7 @@
 - 테스트코드 작성
 - 클린코드 지향
 - [AngularJS Commit Message Conventions](https://gist.github.com/stephenparish/9941e89d80e2bc58a153) 참고 commit log
+- CI/CD : Jenkins?
 
 ## Swagger URL
 - http://localhost:8080/swagger-ui/index.html
