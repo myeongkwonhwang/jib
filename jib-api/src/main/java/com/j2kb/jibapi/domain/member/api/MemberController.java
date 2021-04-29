@@ -28,7 +28,6 @@ import javax.validation.Valid;
 @AllArgsConstructor
 public class MemberController {
 
-    @Autowired
     private MemberJoinService memberJoinService;
 
     @PostMapping
