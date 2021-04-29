@@ -74,7 +74,7 @@
 {
   "status": 200,
   "message": "OK",
-  "obj": {
+  "payload": {
     "memberNo": 1,
     "phoneNumber": "01022572652",
     "memberName": "황명권",
