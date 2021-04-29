@@ -13,15 +13,15 @@ import org.springframework.http.HttpStatus;
 public class SuccessResponse {
     private int status;
     private String message;
-    private Object obj;
+    private Object payload;
 
-    public SuccessResponse(int status, String message, Object obj) {
+    public SuccessResponse(int status, String message, Object payload) {
         this.status = status;
         this.message = message;
-        this.obj = obj;
+        this.payload = payload;
     }
 
-    public static SuccessResponse success(Object obj) {
-        return new SuccessResponse(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), obj);
+    public static SuccessResponse success(Object payload) {
+        return new SuccessResponse(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), payload);
     }
 }
