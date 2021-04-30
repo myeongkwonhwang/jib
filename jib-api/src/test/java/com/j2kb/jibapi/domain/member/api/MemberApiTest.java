@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @AutoConfigureMockMvc
 @SpringBootTest
-class MemberControllerTest {
+class MemberApiTest {
 
     @Autowired
     private ObjectMapper objectMapper;
