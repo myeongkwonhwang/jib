@@ -36,8 +36,8 @@ public class MemberApi {
 
     @PostMapping
     @ApiOperation(value = "기본회원가입")
-    public SuccessResponse save(@Valid @RequestBody MemberJoinDto.BasicJoinReq req) {
-        MemberJoinDto.BasicJoinRes response = memberJoinService.save(req);
-        return SuccessResponse.success(response);
+    public SuccessResponse save(@Valid @RequestBody MemberJoinDto.BasicReq basicReq) {
+        MemberJoinDto.BasicRes basicRes = memberJoinService.save(basicReq);
+        return SuccessResponse.success(basicRes);
     }
 }

@@ -25,19 +25,21 @@ public class MemberJoinService extends BasicServiceSupport {
 
     private final MemberRepository memberRepository;
 
-    public MemberJoinDto.BasicJoinRes save(@RequestBody @Valid MemberJoinDto.BasicJoinReq memberJoinReq) {
-        BasicJoinReqControlParams(memberJoinReq);
-        Member member = BasicJoinReqToMember(memberJoinReq);
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    public MemberJoinDto.BasicRes save(@RequestBody @Valid MemberJoinDto.BasicReq memberReq) {
+        basicReqControlParams(memberReq);
+        Member member = basicJoinReqToMember(memberReq);
         saveMember(member);
-        return memberToBasicJoinRes(member);
+        return memberToBasicRes(member);
     }
 
-    private void BasicJoinReqControlParams(MemberJoinDto.BasicJoinReq memberJoinReq) {
-        memberJoinReq.setPassword(bcryptEnc(memberJoinReq.getPassword()));
+    private void basicReqControlParams(MemberJoinDto.BasicReq memberReq) {
+        memberReq.setPassword(bCryptPasswordEncoder.encode(memberReq.getPassword()));
     }
 
-    private Member BasicJoinReqToMember(MemberJoinDto.BasicJoinReq memberJoinReq) {
-        Member member = modelMapper.map(memberJoinReq, Member.class);
+    private Member basicJoinReqToMember(MemberJoinDto.BasicReq memberReq) {
+        Member member = modelMapper.map(memberReq, Member.class);
         return member;
     }
 
@@ -45,8 +47,7 @@ public class MemberJoinService extends BasicServiceSupport {
         memberRepository.save(member);
     }
 
-    private MemberJoinDto.BasicJoinRes memberToBasicJoinRes(Member member) {
-        log.debug(member.getMemberName());
-        return modelMapper.map(member, MemberJoinDto.BasicJoinRes.class);
+    private MemberJoinDto.BasicRes memberToBasicRes(Member member) {
+        return modelMapper.map(member, MemberJoinDto.BasicRes.class);
     }
 }

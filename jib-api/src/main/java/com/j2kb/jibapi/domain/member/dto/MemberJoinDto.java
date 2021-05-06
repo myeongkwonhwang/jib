@@ -20,7 +20,7 @@ public class MemberJoinDto {
     @Setter
     @ToString
     @Builder
-    public static class BasicJoinReq {
+    public static class BasicReq {
 
         @NotNull
         @Email
@@ -38,9 +38,9 @@ public class MemberJoinDto {
         @ApiModelProperty("phone Number")
         private String phoneNumber;
 
-        public BasicJoinReq() {}
+        public BasicReq() {}
 
-        public BasicJoinReq(String memberId, String memberName, String password, String phoneNumber) {
+        public BasicReq(String memberId, String memberName, String password, String phoneNumber) {
             this.memberId = memberId;
             this.memberName = memberName;
             this.password = password;
@@ -51,7 +51,7 @@ public class MemberJoinDto {
     @Getter
     @Setter
     @ToString
-    public static class BasicJoinRes {
+    public static class BasicRes {
 
         private Integer memberNo;
         private String MemberId;
