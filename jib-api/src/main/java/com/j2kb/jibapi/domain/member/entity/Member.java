@@ -17,7 +17,6 @@ import javax.persistence.*;
 @Table(name = "member")
 @ApiModel(value = "member", description = "사용자")
 @Data
-@EqualsAndHashCode(callSuper=false)
 @DynamicInsert
 @DynamicUpdate
 @NoArgsConstructor
