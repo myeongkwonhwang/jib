@@ -5,6 +5,7 @@ import com.j2kb.jibapi.domain.member.dto.MemberJoinDto;
 import com.j2kb.jibapi.domain.member.entity.Member;
 import com.j2kb.jibapi.domain.interfaces.BasicServiceSupport;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,7 +20,7 @@ import javax.validation.Valid;
  * Github : https://github.com/myeongkwonhwang
  */
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 public class MemberJoinService extends BasicServiceSupport {
 
