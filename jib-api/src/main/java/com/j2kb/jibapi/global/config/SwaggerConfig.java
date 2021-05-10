@@ -29,7 +29,7 @@ public class SwaggerConfig {
                 .groupName("jib-api-v1")
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.j2kb.jibapi.domain"))
-                .paths(PathSelectors.ant("/v1/**"))
+                .paths(PathSelectors.ant("/api/v1/**"))
                 .build()
                 .apiInfo(apiInfo())
                 .securitySchemes(Arrays.asList(apiKey()));
