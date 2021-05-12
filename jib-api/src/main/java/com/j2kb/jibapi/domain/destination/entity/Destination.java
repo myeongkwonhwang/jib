@@ -80,7 +80,20 @@ targetDestionation: {
     lat: `Int`,
     lng: `Int`,
 },
+하연: 1
+인증사진 테이블
+- 유저시퀀스1
+- 사진이름havard
+
+
+row삭제하는 로직 +
+1 havard
+1 seoulnatinal
+1 google
+2
+
         validateID: {
+
         isPhotoIDProvided: `Boolean, optional default = false`,
         isAccepted: `Boolean, default = false`,
         },

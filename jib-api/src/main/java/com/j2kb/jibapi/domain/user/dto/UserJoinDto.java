@@ -3,8 +3,8 @@ package com.j2kb.jibapi.domain.user.dto;
 import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-
 import lombok.*;
+
 import org.springframework.web.bind.annotation.RequestBody;
 
 /**
@@ -44,6 +44,9 @@ public class UserJoinDto {
         @NotNull
         private LoginType loginType;
 
+        @NotNull
+        private UserDto.UserType userType;
+
     }
 
     @Getter
@@ -71,5 +74,6 @@ public class UserJoinDto {
         private String firstName;
         private String lastName;
         private LoginType loginType;
+        private UserDto.UserType userType;
     }
 }

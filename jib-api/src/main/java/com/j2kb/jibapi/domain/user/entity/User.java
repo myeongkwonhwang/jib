@@ -58,6 +58,8 @@ public class User {
     @ApiModelProperty("member profile image name")
     private String profileImg;
 
+    private String userType;
+
     private String loginType;
 
     private String snsToken;
@@ -65,4 +67,15 @@ public class User {
     private Date createdAt;
 
     private Date updatedAt;
+
+    private Boolean isAccepted;
+
+    private Boolean photoProvided;
 }
+/*
+ validateID: {
+
+         isPhotoIDProvided: `Boolean, optional default = false`,
+        isAccepted: `Boolean, default = false`,
+        }
+  */
