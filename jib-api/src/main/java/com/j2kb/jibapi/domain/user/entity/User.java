@@ -32,7 +32,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @Builder
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @ApiModelProperty("멤버 idx")
     private Integer userno;
 

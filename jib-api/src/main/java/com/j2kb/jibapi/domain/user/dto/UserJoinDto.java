@@ -1,11 +1,9 @@
 package com.j2kb.jibapi.domain.user.dto;
 
-import io.swagger.annotations.ApiModelProperty;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
 import lombok.*;
 
-import org.springframework.web.bind.annotation.RequestBody;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by mkhwang on 2021/05/01
@@ -28,24 +26,24 @@ public class UserJoinDto {
         private String password;
 
         @NotNull
-        private String firstName;
+        private String firstname;
 
         @NotNull
-        private String lastName;
+        private String lastname;
 
-        private String birthYear;
+        private String birthyear;
 
-        private String langCd;
+        private String langcd;
 
-        private String phoneNum;
+        private String phonenum;
 
-        private String profileImg;
-
-        @NotNull
-        private LoginType loginType;
+        private String profileimg;
 
         @NotNull
-        private UserDto.UserType userType;
+        private LoginType logintype;
+
+        @NotNull
+        private UserDto.UserType usertype;
 
     }
 
@@ -71,9 +69,9 @@ public class UserJoinDto {
     @Builder
     public static class BasicRes {
         private String email;
-        private String firstName;
-        private String lastName;
-        private LoginType loginType;
-        private UserDto.UserType userType;
+        private String firstname;
+        private String lastname;
+        private LoginType logintype;
+        private UserDto.UserType usertype;
     }
 }

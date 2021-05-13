@@ -34,7 +34,7 @@ public class DestinationDto {
 
         @NotNull
         @ApiModelProperty("우편번호")
-        private String zipCode;
+        private String zipcode;
 
         @ApiModelProperty("경도")
         private Double latitude;
@@ -45,12 +45,12 @@ public class DestinationDto {
         public SaveReq() {
         }
 
-        public SaveReq(String name, String country, String province, String city, String zipCode, Double latitude, Double longitude) {
+        public SaveReq(String name, String country, String province, String city, String zipcode, Double latitude, Double longitude) {
             this.name = name;
             this.country = country;
             this.province = province;
             this.city = city;
-            this.zipCode = zipCode;
+            this.zipcode = zipcode;
             this.latitude = latitude;
             this.longitude = longitude;
         }
@@ -63,7 +63,7 @@ public class DestinationDto {
     public static class SaveRes {
 
         @ApiModelProperty("목적지 고유번호") //swagger
-        private Long dstNo;
+        private Long dstno;
 
         @ApiModelProperty("목적지 이름")
         private String name;
@@ -78,7 +78,7 @@ public class DestinationDto {
         private String city;
 
         @ApiModelProperty("우편번호")
-        private String zipCode;
+        private String zipcode;
 
         @ApiModelProperty("경도")
         private Double latitude;
@@ -89,13 +89,13 @@ public class DestinationDto {
         public SaveRes() {
         }
 
-        public SaveRes(Long dstNo, String name, String country, String province, String city, String zipCode, Double latitude, Double longitude) {
-            this.dstNo = dstNo;
+        public SaveRes(Long dstno, String name, String country, String province, String city, String zipcode, Double latitude, Double longitude) {
+            this.dstno = dstno;
             this.name = name;
             this.country = country;
             this.province = province;
             this.city = city;
-            this.zipCode = zipCode;
+            this.zipcode = zipcode;
             this.latitude = latitude;
             this.longitude = longitude;
         }

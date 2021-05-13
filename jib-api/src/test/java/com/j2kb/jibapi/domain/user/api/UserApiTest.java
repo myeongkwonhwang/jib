@@ -3,7 +3,6 @@ package com.j2kb.jibapi.domain.user.api;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.j2kb.jibapi.domain.user.dto.UserJoinDto;
-import com.j2kb.jibapi.domain.user.entity.User;
 import com.j2kb.jibapi.domain.user.service.UserJoinService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -16,8 +15,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.filter.CharacterEncodingFilter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +24,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * Created by mkhwang on 2021/04/29
@@ -52,9 +50,9 @@ class UserApiTest {
     UserJoinDto.BasicReq mockUser = UserJoinDto.BasicReq.builder()
             .email("hayeon@gmail.com")
             .password("1111")
-            .firstName("hayeon")
-            .lastName("kim")
-            .loginType(UserJoinDto.LoginType.BASIC)
+            .firstname("hayeon")
+            .lastname("kim")
+            .logintype(UserJoinDto.LoginType.BASIC)
             .build();
 
     @BeforeEach
@@ -75,9 +73,9 @@ class UserApiTest {
         UserJoinDto.BasicReq req = UserJoinDto.BasicReq.builder()
                 .email("hayeon@gmail.com")
                 .password("1111")
-                .firstName("hayeon")
-                .lastName("kim")
-                .loginType(UserJoinDto.LoginType.BASIC)
+                .firstname("hayeon")
+                .lastname("kim")
+                .logintype(UserJoinDto.LoginType.BASIC)
                 .build();
 
         String json = objectMapper.writeValueAsString(req);
