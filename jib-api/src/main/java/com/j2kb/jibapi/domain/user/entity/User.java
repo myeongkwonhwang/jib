@@ -32,9 +32,9 @@ import org.hibernate.annotations.DynamicUpdate;
 @Builder
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @ApiModelProperty("멤버 idx")
-    private Integer no;
+    private Integer userno;
 
     @ApiModelProperty("이메일")
     private String email;
@@ -43,34 +43,34 @@ public class User {
     private String password;
 
     @ApiModelProperty("member first name")
-    private String firstName;
+    private String firstname;
 
     @ApiModelProperty("member last name")
-    private String lastName;
+    private String lastname;
 
-    private String birthYear;
+    private String birthyear;
 
-    private String langCd;
+    private String langcd;
 
     @ApiModelProperty("phone Num")
-    private String phoneNum;
+    private String phonenum;
 
     @ApiModelProperty("member profile image name")
-    private String profileImg;
+    private String profileimg;
 
-    private String userType;
+    private String usertype;
 
-    private String loginType;
+    private String logintype;
 
-    private String snsToken;
+    private String snstoken;
 
-    private Date createdAt;
+    private Date createdat;
 
-    private Date updatedAt;
+    private Date updatedat;
 
-    private Boolean isAccepted;
+    private Boolean isaccepted;
 
-    private Boolean photoProvided;
+    private Boolean photoprovided;
 }
 /*
  validateID: {

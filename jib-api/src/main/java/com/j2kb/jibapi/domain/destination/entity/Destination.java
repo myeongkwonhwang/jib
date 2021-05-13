@@ -31,7 +31,7 @@ public class Destination {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @ApiModelProperty("목적지 고유번호") //swagger
-    private Long dstNo;
+    private Long dstno;
 
     @ApiModelProperty("목적지 이름")
     private String name;
@@ -46,7 +46,7 @@ public class Destination {
     private String city;
 
     @ApiModelProperty("우편번호")
-    private String zipCode;
+    private String zipcode;
 
     @ApiModelProperty("경도")
     private Double latitude;
