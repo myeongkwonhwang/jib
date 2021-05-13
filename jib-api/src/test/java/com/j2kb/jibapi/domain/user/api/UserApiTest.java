@@ -81,7 +81,7 @@ class UserApiTest {
         String json = objectMapper.writeValueAsString(req);
 
 
-        given(userJoinService.save(any(UserJoinDto.BasicReq.class))).will(invocation -> {
+        given(userJoinService.create(any(UserJoinDto.BasicReq.class))).will(invocation -> {
             UserJoinDto.BasicReq user = invocation.getArgument(0);
             //user.setId(1L);
             return user;

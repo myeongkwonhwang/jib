@@ -23,7 +23,7 @@ public class UserJoinService extends BasicServiceSupport {
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public UserJoinDto.BasicRes save(@RequestBody @Valid UserJoinDto.BasicReq userReq) {
+    public UserJoinDto.BasicRes create(@RequestBody @Valid UserJoinDto.BasicReq userReq) {
         basicReqControlParams(userReq);
         User user = basicJoinReqToUser(userReq);
         saveUser(user);

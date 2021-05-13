@@ -85,7 +85,7 @@ class DestinationApiTest {
                 .zipcode("zipCode")
                 .build();
 
-        DestinationDto.SaveRes save = destinationService.save(saveReq);
+        DestinationDto.SaveRes save = destinationService.create(saveReq);
 
         DestinationDto.SaveRes search = destinationService.search(save.getDstno());
 

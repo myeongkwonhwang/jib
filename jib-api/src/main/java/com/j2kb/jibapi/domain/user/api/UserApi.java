@@ -29,7 +29,7 @@ public class UserApi {
     @PostMapping
     @ApiOperation(value = "기본회원가입")
     public SuccessResponse save(@Valid @RequestBody UserJoinDto.BasicReq basicReq) {
-        UserJoinDto.BasicRes basicRes = userJoinService.save(basicReq);
+        UserJoinDto.BasicRes basicRes = userJoinService.create(basicReq);
         return SuccessResponse.success(basicRes);
     }
 }

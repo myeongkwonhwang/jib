@@ -25,8 +25,8 @@ public class DestinationApi {
 
     @PostMapping
     @ApiOperation(value = "목적지 저장")
-    public SuccessResponse save(@RequestBody @Valid DestinationDto.SaveReq saveReq) {
-        DestinationDto.SaveRes res = destinationService.save(saveReq);
+    public SuccessResponse create(@RequestBody @Valid DestinationDto.SaveReq saveReq) {
+        DestinationDto.SaveRes res = destinationService.create(saveReq);
         return SuccessResponse.success(res);
     }
 
