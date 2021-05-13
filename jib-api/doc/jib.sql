@@ -43,7 +43,7 @@ CREATE TABLE jib.user (
                           "password" varchar(200) NULL,
                           phoneNum varchar(15) NULL,
                           profileImg bytea NULL,
-                          loginType varchar(10) NULL
+                          loginType varchar(10) NULL,
                           userType varchar(10) NULL,
                           snsType varchar(10) NULL,
                           snsToken varchar(100) NULL,
