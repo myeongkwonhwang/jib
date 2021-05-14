@@ -24,26 +24,13 @@ public class UserJoinService extends BasicServiceSupport {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public UserJoinDto.BasicRes create(@RequestBody @Valid UserJoinDto.BasicReq userReq) {
-        basicReqControlParams(userReq);
-        User user = basicJoinReqToUser(userReq);
-        saveUser(user);
-        return userToBasicRes(user);
+        controlParams(userReq);
+        User user = userRepository.save(modelMapper.map(userReq, User.class));
+        return modelMapper.map(user, UserJoinDto.BasicRes.class);
     }
 
-    private void basicReqControlParams(UserJoinDto.BasicReq userReq) {
+    private void controlParams(UserJoinDto.BasicReq userReq) {
         userReq.setPassword(bCryptPasswordEncoder.encode(userReq.getPassword()));
     }
 
-    private User basicJoinReqToUser(UserJoinDto.BasicReq userReq) {
-        User user = modelMapper.map(userReq, User.class);
-        return user;
-    }
-
-    private void saveUser(User user) {
-        userRepository.save(user);
-    }
-
-    private UserJoinDto.BasicRes userToBasicRes(User user) {
-        return modelMapper.map(user, UserJoinDto.BasicRes.class);
-    }
 }

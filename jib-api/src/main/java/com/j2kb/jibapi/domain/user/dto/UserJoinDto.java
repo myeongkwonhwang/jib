@@ -1,11 +1,14 @@
 package com.j2kb.jibapi.domain.user.dto;
 
+import com.j2kb.jibapi.domain.user.entity.User;
 import com.j2kb.jibapi.domain.user.enums.LoginType;
 import com.j2kb.jibapi.domain.user.enums.UserType;
 import lombok.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class UserJoinDto {
     @Getter
@@ -15,6 +18,10 @@ public class UserJoinDto {
     @AllArgsConstructor
     @Builder
     public static class BasicReq {
+
+        @Autowired
+        protected static ModelMapper modelMapper;
+
         @NotNull
         @Email
         private String email;
