@@ -13,11 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-/**
- * Created by mkhwang on 2021/04/29
- * Email : orange2652@gmail.com
- * Github : https://github.com/myeongkwonhwang
- */
 @RestController
 @RequestMapping("/api/v1/user")
 @Slf4j

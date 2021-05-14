@@ -3,6 +3,7 @@ package com.j2kb.jibapi.domain.user.api;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.j2kb.jibapi.domain.user.dto.UserJoinDto;
+import com.j2kb.jibapi.domain.user.enums.LoginType;
 import com.j2kb.jibapi.domain.user.service.UserJoinService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -52,7 +53,7 @@ class UserApiTest {
             .password("1111")
             .firstname("hayeon")
             .lastname("kim")
-            .logintype(UserJoinDto.LoginType.BASIC)
+            .logintype(LoginType.BASIC)
             .build();
 
     @BeforeEach
@@ -75,7 +76,7 @@ class UserApiTest {
                 .password("1111")
                 .firstname("hayeon")
                 .lastname("kim")
-                .logintype(UserJoinDto.LoginType.BASIC)
+                .logintype(LoginType.BASIC)
                 .build();
 
         String json = objectMapper.writeValueAsString(req);
