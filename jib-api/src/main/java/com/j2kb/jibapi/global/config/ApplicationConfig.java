@@ -1,6 +1,8 @@
 package com.j2kb.jibapi.global.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.j2kb.jibapi.domain.user.dto.UserDto;
+import com.j2kb.jibapi.global.util.enumMapper.EnumMapper;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.modelmapper.convention.NamingConventions;
@@ -34,5 +36,12 @@ public class ApplicationConfig {
                 .setMatchingStrategy(MatchingStrategies.STRICT);
         return modelMapper;
         //https://github.com/modelmapper/modelmapper/issues/212
+    }
+
+    @Bean
+    public EnumMapper enumMapper() {
+        EnumMapper enumMapper = new EnumMapper();
+        enumMapper.put("Preferences", UserDto.Preferences.class);
+        return enumMapper;
     }
 }
