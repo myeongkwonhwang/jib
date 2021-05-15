@@ -1,6 +1,6 @@
 package com.j2kb.jibapi.domain.user.api;
 
-import com.j2kb.jibapi.domain.user.dto.UserJoinDto;
+import com.j2kb.jibapi.domain.user.dto.JoinDto;
 import com.j2kb.jibapi.domain.user.service.UserJoinService;
 import com.j2kb.jibapi.global.common.SuccessResponse;
 import io.swagger.annotations.ApiOperation;
@@ -21,10 +21,17 @@ public class UserApi {
 
     private final UserJoinService userJoinService;
 
-    @PostMapping
+    @PostMapping("/signup")
     @ApiOperation(value = "기본회원가입")
-    public SuccessResponse save(@Valid @RequestBody UserJoinDto.BasicReq basicReq) {
-        UserJoinDto.BasicRes basicRes = userJoinService.create(basicReq);
+    public SuccessResponse join(@Valid @RequestBody JoinDto.BasicReq basicReq) {
+        JoinDto.BasicRes basicRes = userJoinService.create(basicReq);
+        return SuccessResponse.success(basicRes);
+    }
+
+    @PostMapping("/login")
+    @ApiOperation(value = "로그인")
+    public SuccessResponse login(@Valid @RequestBody JoinDto.BasicReq basicReq) {
+        JoinDto.BasicRes basicRes = userJoinService.create(basicReq);
         return SuccessResponse.success(basicRes);
     }
 }

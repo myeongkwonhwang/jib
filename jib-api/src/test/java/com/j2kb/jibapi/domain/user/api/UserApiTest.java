@@ -2,12 +2,14 @@ package com.j2kb.jibapi.domain.user.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.j2kb.jibapi.domain.user.dto.UserJoinDto;
+import com.j2kb.jibapi.domain.user.dto.JoinDto;
+import com.j2kb.jibapi.domain.user.entity.User;
 import com.j2kb.jibapi.domain.user.enums.LoginType;
 import com.j2kb.jibapi.domain.user.service.UserJoinService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -37,6 +39,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 class UserApiTest {
 
+    private final ModelMapper modelMapper = new ModelMapper();
+
     @Autowired
     private MockMvc mvc;
 
@@ -46,52 +50,41 @@ class UserApiTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    List<UserJoinDto.BasicReq> mockUsers = new ArrayList<>();
+    List<User> mockUsers = new ArrayList<>();
 
-    UserJoinDto.BasicReq mockUser = UserJoinDto.BasicReq.builder()
-            .email("hayeon@gmail.com")
-            .password("1111")
-            .firstname("hayeon")
-            .lastname("kim")
-            .logintype(LoginType.BASIC)
-            .build();
+    User mockUser = User.builder()
+        .email("hayeon@gmail.com")
+        .password("1111")
+        .firstname("hayeon")
+        .lastname("kim")
+        .logintype(LoginType.BASIC.getCode())
+        .build();
 
     @BeforeEach
     public void setup(@Autowired UserApi userApi){
         mvc = MockMvcBuilders.standaloneSetup(userApi).build();
-
         mockUsers.add(mockUser);
-    }
-
-    public String toJsonString(UserJoinDto.BasicReq usr) throws JsonProcessingException {
-        return objectMapper.writeValueAsString(usr);
     }
 
     @Test
     @DisplayName("기본 회원 가입")
     public void saveUser_test() throws Exception {
         // given
-        UserJoinDto.BasicReq req = UserJoinDto.BasicReq.builder()
-                .email("hayeon@gmail.com")
-                .password("1111")
-                .firstname("hayeon")
-                .lastname("kim")
-                .logintype(LoginType.BASIC)
-                .build();
+        JoinDto.BasicReq req = modelMapper.map(mockUser, JoinDto.BasicReq.class);
 
         String json = objectMapper.writeValueAsString(req);
 
+        JoinDto.BasicRes res = modelMapper.map(mockUser, JoinDto.BasicRes.class);
 
-        given(userJoinService.create(any(UserJoinDto.BasicReq.class))).will(invocation -> {
-            UserJoinDto.BasicReq user = invocation.getArgument(0);
-            //user.setId(1L);
-            return user;
-        });
+        given(userJoinService.create(any(JoinDto.BasicReq.class))).willReturn(res);
 
+        // when
         final ResultActions actions = mvc.perform(post("/api/v1/user")
                 .content(json)
-                .contentType(MediaType.APPLICATION_JSON));
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("utf-8"));
 
+        // then
         actions
                 .andDo(print())  // 요청 & 응답 내용 출력
                 .andExpect(status().isCreated())

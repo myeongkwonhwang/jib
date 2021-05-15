@@ -10,17 +10,9 @@ import javax.validation.constraints.NotNull;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class UserJoinDto {
-    @Getter
-    @Setter
-    @ToString
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Builder
+public class JoinDto {
+    @Data
     public static class BasicReq {
-
-        @Autowired
-        protected static ModelMapper modelMapper;
 
         @NotNull
         @Email
@@ -49,13 +41,10 @@ public class UserJoinDto {
         @NotNull
         private UserType usertype;
 
+        @NotNull
+        private String validationImage;
     }
-
-    @Getter
-    @Setter
-    @ToString
-    @NoArgsConstructor
-    @AllArgsConstructor
+    @Data
     @Builder
     public static class BasicRes {
         private String email;
@@ -63,5 +52,15 @@ public class UserJoinDto {
         private String lastname;
         private LoginType logintype;
         private UserType usertype;
+
+        public User of(User user) {
+            BasicRes.builder()
+                .email(user.getEmail())
+                .firstname(user.getFirstname())
+                .lastname(user.getLastname())
+                .logintype(LoginType.findByCode(user.getLogintype()))
+                .usertype(UserType.findByCode(user.getUsertype()))
+                .build();
+        }
     }
 }

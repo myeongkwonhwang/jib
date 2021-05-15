@@ -1,8 +1,9 @@
 package com.j2kb.jibapi.domain.user.enums;
 
 import com.j2kb.jibapi.global.util.enumMapper.EnumMapperType;
+import java.util.Arrays;
 
-public enum Preferences implements EnumMapperType {
+public enum Preferences implements EnumMapperType, CodeEnum {
 
     FOOD("AF01","Food"),
     RIDE_OFFER("AF02","Ride Offer"),
@@ -33,5 +34,22 @@ public enum Preferences implements EnumMapperType {
     @Override
     public String getTitle() {
         return description;
+    }
+
+    @Override
+    public String getCode() {
+        return code;
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
+    }
+
+    public static Preferences findByCode(String code) {
+        return Arrays.stream(Preferences.values())
+            .filter(value -> value.getCode().equals(code))
+            .findAny()
+            .orElse(null);
     }
 }
