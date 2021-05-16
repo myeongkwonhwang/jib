@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.j2kb.jibapi.domain.user.dto.JoinDto;
 import com.j2kb.jibapi.domain.user.entity.User;
 import com.j2kb.jibapi.domain.user.enums.LoginType;
+import com.j2kb.jibapi.domain.user.enums.UserType;
 import com.j2kb.jibapi.domain.user.service.UserJoinService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -58,6 +59,8 @@ class UserApiTest {
         .firstname("hayeon")
         .lastname("kim")
         .logintype(LoginType.BASIC.getCode())
+        .usertype(UserType.STUDENT.getCode())
+        .validationImg("img")
         .build();
 
     @BeforeEach
@@ -70,11 +73,18 @@ class UserApiTest {
     @DisplayName("기본 회원 가입")
     public void saveUser_test() throws Exception {
         // given
-        JoinDto.BasicReq req = modelMapper.map(mockUser, JoinDto.BasicReq.class);
+        JoinDto.BasicReq req = JoinDto.BasicReq.builder()
+            .email("hayeon@gmail.com")
+            .password("1111")
+            .firstname("hayeon")
+            .lastname("kim")
+            .logintype(LoginType.BASIC)
+            .usertype(UserType.STUDENT)
+            .validationImg("img").build();
 
         String json = objectMapper.writeValueAsString(req);
 
-        JoinDto.BasicRes res = modelMapper.map(mockUser, JoinDto.BasicRes.class);
+        JoinDto.BasicRes res = JoinDto.BasicRes.of(mockUser);
 
         given(userJoinService.create(any(JoinDto.BasicReq.class))).willReturn(res);
 
@@ -87,7 +97,7 @@ class UserApiTest {
         // then
         actions
                 .andDo(print())  // 요청 & 응답 내용 출력
-                .andExpect(status().isCreated())
+                .andExpect(status().isOk())
                 .andExpect(content().string(containsString("hayeon")));
     }
 

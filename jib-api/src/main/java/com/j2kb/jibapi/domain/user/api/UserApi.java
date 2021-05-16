@@ -21,7 +21,7 @@ public class UserApi {
 
     private final UserJoinService userJoinService;
 
-    @PostMapping("/signup")
+    @PostMapping
     @ApiOperation(value = "기본회원가입")
     public SuccessResponse join(@Valid @RequestBody JoinDto.BasicReq basicReq) {
         JoinDto.BasicRes basicRes = userJoinService.create(basicReq);

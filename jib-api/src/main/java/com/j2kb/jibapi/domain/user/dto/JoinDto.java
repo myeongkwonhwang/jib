@@ -7,11 +7,12 @@ import lombok.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class JoinDto {
     @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
     public static class BasicReq {
 
         @NotNull
@@ -42,7 +43,7 @@ public class JoinDto {
         private UserType usertype;
 
         @NotNull
-        private String validationImage;
+        private String validationImg;
     }
     @Data
     @Builder
@@ -53,8 +54,8 @@ public class JoinDto {
         private LoginType logintype;
         private UserType usertype;
 
-        public User of(User user) {
-            BasicRes.builder()
+        public static BasicRes of(User user) {
+            return BasicRes.builder()
                 .email(user.getEmail())
                 .firstname(user.getFirstname())
                 .lastname(user.getLastname())

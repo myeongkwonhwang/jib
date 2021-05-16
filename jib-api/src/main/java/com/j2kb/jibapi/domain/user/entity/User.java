@@ -68,6 +68,8 @@ public class User {
 
     private Date updatedat;
 
+    private String validationImg;
+
     private Boolean isaccepted;
 
     private Boolean photoprovided;
