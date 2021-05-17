@@ -57,10 +57,10 @@ class UserApiTest {
     User mockUser = User.builder()
         .email("hayeon@gmail.com")
         .password("1111")
-        .firstname("hayeon")
-        .lastname("kim")
-        .logintype(LoginType.BASIC.getCode())
-        .usertype(UserType.STUDENT.getCode())
+        .firstName("hayeon")
+        .lastName("kim")
+        .loginType(LoginType.BASIC.getCode())
+        .userType(UserType.STUDENT.getCode())
         .validationImg("img")
         .build();
 

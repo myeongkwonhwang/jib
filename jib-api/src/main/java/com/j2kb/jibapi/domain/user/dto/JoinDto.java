@@ -1,7 +1,10 @@
 package com.j2kb.jibapi.domain.user.dto;
 
+import com.j2kb.jibapi.domain.user.entity.AdditionalInfo;
 import com.j2kb.jibapi.domain.user.entity.User;
+import com.j2kb.jibapi.domain.user.enums.HouseType;
 import com.j2kb.jibapi.domain.user.enums.LoginType;
+import com.j2kb.jibapi.domain.user.enums.Preferences;
 import com.j2kb.jibapi.domain.user.enums.UserType;
 import lombok.*;
 
@@ -57,10 +60,10 @@ public class JoinDto {
         public static BasicRes of(User user) {
             return BasicRes.builder()
                 .email(user.getEmail())
-                .firstname(user.getFirstname())
-                .lastname(user.getLastname())
-                .logintype(LoginType.findByCode(user.getLogintype()))
-                .usertype(UserType.findByCode(user.getUsertype()))
+                .firstname(user.getFirstName())
+                .lastname(user.getLastName())
+                .logintype(LoginType.findByCode(user.getLoginType()))
+                .usertype(UserType.findByCode(user.getUserType()))
                 .build();
         }
     }
