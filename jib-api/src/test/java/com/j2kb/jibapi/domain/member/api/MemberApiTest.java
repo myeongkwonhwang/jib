@@ -2,6 +2,7 @@ package com.j2kb.jibapi.domain.member.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.j2kb.jibapi.domain.member.dto.MemberJoinDto;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @AutoConfigureMockMvc
 @SpringBootTest
+@Slf4j
 class MemberApiTest {
 
     @Autowired

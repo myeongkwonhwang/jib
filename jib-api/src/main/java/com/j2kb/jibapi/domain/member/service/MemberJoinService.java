@@ -32,6 +32,7 @@ public class MemberJoinService extends BasicServiceSupport {
         basicReqControlParams(memberReq);
         Member member = basicJoinReqToMember(memberReq);
         saveMember(member);
+        System.out.println("MemberJoinService.save");
         return memberToBasicRes(member);
     }
 

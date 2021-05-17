@@ -2,6 +2,7 @@ package com.j2kb.jibapi.domain.user.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.j2kb.jibapi.domain.user.dto.UserDto;
 import com.j2kb.jibapi.domain.user.dto.UserJoinDto;
 import com.j2kb.jibapi.domain.user.entity.User;
 import com.j2kb.jibapi.domain.user.service.UserJoinService;
@@ -19,6 +20,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,19 +37,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Github : https://github.com/myeongkwonhwang
  */
 @AutoConfigureMockMvc
+@Transactional
 @SpringBootTest
 class UserApiTest {
 
     @Autowired
     private MockMvc mvc;
 
-    @MockBean
+    //@MockBean
     private UserJoinService userJoinService;
 
     @Autowired
     private ObjectMapper objectMapper;
 
-    List<UserJoinDto.BasicReq> mockUsers = new ArrayList<>();
+    List<UserJoinDto.BasicRes> mockUsers = new ArrayList<>();
 
     UserJoinDto.BasicReq mockUser = UserJoinDto.BasicReq.builder()
             .email("hayeon@gmail.com")
@@ -55,18 +58,25 @@ class UserApiTest {
             .firstName("hayeon")
             .lastName("kim")
             .loginType(UserJoinDto.LoginType.BASIC)
+            .userType(UserDto.UserType.STUDENT)
             .build();
+
+    UserJoinDto.BasicRes mockUserRes = UserJoinDto.BasicRes.builder()
+            .email("hayeon@gmail.com")
+            .firstName("hayeon")
+            .lastName("kim")
+            .loginType(UserJoinDto.LoginType.BASIC)
+            .userType(UserDto.UserType.STUDENT)
+            .build();
+
 
     @BeforeEach
     public void setup(@Autowired UserApi userApi){
         mvc = MockMvcBuilders.standaloneSetup(userApi).build();
 
-        mockUsers.add(mockUser);
+        mockUsers.add(mockUserRes);
     }
 
-    public String toJsonString(UserJoinDto.BasicReq usr) throws JsonProcessingException {
-        return objectMapper.writeValueAsString(usr);
-    }
 
     @Test
     @DisplayName("기본 회원 가입")
@@ -78,25 +88,33 @@ class UserApiTest {
                 .firstName("hayeon")
                 .lastName("kim")
                 .loginType(UserJoinDto.LoginType.BASIC)
+                .userType(UserDto.UserType.STUDENT)
+                .build();
+
+        UserJoinDto.BasicRes res = UserJoinDto.BasicRes.builder()
+                .email("hayeon@gmail.com")
+                .firstName("hayeon")
+                .lastName("kim")
+                .loginType(UserJoinDto.LoginType.BASIC)
+                .userType(UserDto.UserType.STUDENT)
                 .build();
 
         String json = objectMapper.writeValueAsString(req);
+        String resJson = objectMapper.writeValueAsString(res);
 
+        //given(userJoinService.create(any())).willReturn(mockUserRes);
 
-        given(userJoinService.save(any(UserJoinDto.BasicReq.class))).will(invocation -> {
-            UserJoinDto.BasicReq user = invocation.getArgument(0);
-            //user.setId(1L);
-            return user;
-        });
-
+        // when
         final ResultActions actions = mvc.perform(post("/api/v1/user")
-                .content(json)
-                .contentType(MediaType.APPLICATION_JSON));
+                .content(objectMapper.writeValueAsString(mockUser))
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8"));
 
+        // then
         actions
                 .andDo(print())  // 요청 & 응답 내용 출력
-                .andExpect(status().isCreated())
-                .andExpect(content().string(containsString("hayeon")));
+                .andExpect(status().isOk());
+                //.andExpect(content().string(containsString("")));
     }
 
 }

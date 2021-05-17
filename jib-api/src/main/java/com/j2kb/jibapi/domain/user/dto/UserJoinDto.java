@@ -24,7 +24,6 @@ public class UserJoinDto {
         @Email
         private String email;
 
-        @NotNull
         private String password;
 
         @NotNull
