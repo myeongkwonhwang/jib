@@ -1,12 +1,12 @@
 package com.j2kb.jibapi.global.config.security;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,29 +19,26 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
  */
 @Slf4j
 @EnableWebSecurity
-@AllArgsConstructor
-@NoArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-    private UserDetailService userDetailService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    private static final String[] AUTH_WHITELIST = {
-            // swagger
-            "/v2/api-docs",
-            "/swagger-resources",
-            "/swagger-resources/**",
-            "/configuration/ui",
-            "/configuration/security",
-            "/swagger-ui.html",
-            "/webjars/**",
+    private final UserDetailService userDetailService;
 
-            // auth
-            "/api/login",
-            "/api/users/**",
+    private final String[] authWhiteList;
 
-            "/error"
-    };
+    @Autowired
+    public SecurityConfig(BCryptPasswordEncoder bCryptPasswordEncoder, UserDetailService userDetailService
+            , @Value("${web.security.white.list:}") String[] authWhiteList) {
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.userDetailService = userDetailService;
+        this.authWhiteList = authWhiteList;
+    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers(authWhiteList);
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -65,7 +62,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .csrf().disable()
             .formLogin().disable()
             .authorizeRequests()
-            .antMatchers(AUTH_WHITELIST).permitAll()
             .anyRequest().authenticated();
     }
 }
