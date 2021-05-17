@@ -22,7 +22,7 @@ public class DestinationService extends BasicServiceSupport {
 
     private final DestinationRepository destinationRepository;
 
-    public DestinationDto.SaveRes save(DestinationDto.SaveReq saveReq) {
+    public DestinationDto.SaveRes create(DestinationDto.SaveReq saveReq) {
         Destination destination = saveReqToDestination(saveReq);
         saveDestination(destination);
         return destinationToSaveRes(destination);

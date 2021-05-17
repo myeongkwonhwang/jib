@@ -1,5 +1,7 @@
 package com.j2kb.jibapi.global.config.security;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,13 +19,29 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
  */
 @Slf4j
 @EnableWebSecurity
+@AllArgsConstructor
+@NoArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
-
-    @Autowired
     private UserDetailService userDetailService;
+
+    private static final String[] AUTH_WHITELIST = {
+            // swagger
+            "/v2/api-docs",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+
+            // auth
+            "/api/login",
+            "/api/users/**",
+
+            "/error"
+    };
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -45,6 +63,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
             .csrf().disable()
-            .formLogin().disable();
+            .formLogin().disable()
+            .authorizeRequests()
+            .antMatchers(AUTH_WHITELIST).permitAll()
+            .anyRequest().authenticated();
     }
 }

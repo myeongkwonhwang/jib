@@ -5,7 +5,6 @@ import com.j2kb.jibapi.global.common.SuccessResponse;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import com.j2kb.jibapi.domain.destination.dto.DestinationDto;
 
@@ -26,12 +25,12 @@ public class DestinationApi {
 
     @PostMapping
     @ApiOperation(value = "목적지 저장")
-    public SuccessResponse save(@RequestBody @Valid DestinationDto.SaveReq saveReq) {
-        DestinationDto.SaveRes res = destinationService.save(saveReq);
+    public SuccessResponse create(@RequestBody @Valid DestinationDto.SaveReq saveReq) {
+        DestinationDto.SaveRes res = destinationService.create(saveReq);
         return SuccessResponse.success(res);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{dstNo}")
     @ApiOperation(value = "목적지 조회")
     public SuccessResponse search(@PathVariable Long dstNo) {
         DestinationDto.SaveRes res = destinationService.search(dstNo);
