@@ -3,7 +3,7 @@ package com.j2kb.jibapi.domain.user.enums;
 import com.j2kb.jibapi.global.util.enumMapper.EnumMapperType;
 import java.util.Arrays;
 
-public enum Preferences implements EnumMapperType, CodeEnum {
+public enum Preferences implements EnumMapperType {
 
     FOOD("AF01","Food"),
     RIDE_OFFER("AF02","Ride Offer"),
@@ -32,11 +32,6 @@ public enum Preferences implements EnumMapperType, CodeEnum {
     }
 
     @Override
-    public String getTitle() {
-        return description;
-    }
-
-    @Override
     public String getCode() {
         return code;
     }
@@ -48,8 +43,13 @@ public enum Preferences implements EnumMapperType, CodeEnum {
 
     public static Preferences findByCode(String code) {
         return Arrays.stream(Preferences.values())
-            .filter(value -> value.getCode().equals(code))
-            .findAny()
-            .orElse(null);
+                .filter(value -> value.getCode().equals(code))
+                .findAny()
+                .orElse(null);
+    }
+
+    @Override
+    public String toString() {
+        return name();
     }
 }

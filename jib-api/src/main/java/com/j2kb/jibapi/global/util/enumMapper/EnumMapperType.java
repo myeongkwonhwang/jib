@@ -8,6 +8,7 @@ package com.j2kb.jibapi.global.util.enumMapper;
 public interface EnumMapperType {
 
     String getName();
-    String getTitle();
+    String getCode();
+    String getDescription();
 
 }

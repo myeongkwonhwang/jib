@@ -1,10 +1,12 @@
 package com.j2kb.jibapi.domain.user.enums;
 
 import java.util.Arrays;
+
+import com.j2kb.jibapi.global.util.enumMapper.EnumMapperType;
 import lombok.Getter;
 
 @Getter
-public enum HouseType implements CodeEnum {
+public enum HouseType implements EnumMapperType {
     ENTIRE("AD01", "entireHouse"),
     SHARED("AD02", "sharedHouse"),
     PRIVATE("AD03", "privateHouse"),
@@ -16,6 +18,11 @@ public enum HouseType implements CodeEnum {
     HouseType(String code, String description) {
         this.code = code;
         this.description = description;
+    }
+
+    @Override
+    public String getName() {
+        return name();
     }
 
     @Override
@@ -34,5 +41,4 @@ public enum HouseType implements CodeEnum {
             .findAny()
             .orElse(null);
     }
-    // 혹시 제 목소리 들리시나요.. 아앗..
 }

@@ -1,10 +1,12 @@
 package com.j2kb.jibapi.domain.user.enums;
 
 import java.util.Arrays;
+
+import com.j2kb.jibapi.global.util.enumMapper.EnumMapperType;
 import lombok.Getter;
 
 @Getter
-public enum UserType implements CodeEnum {
+public enum UserType implements EnumMapperType {
     STUDENT("AB01", "student"),
     PARENT("AB02", "parent"),
     WORKER("AB03", "worker"),
@@ -16,6 +18,11 @@ public enum UserType implements CodeEnum {
     UserType(String code, String description) {
         this.code = code;
         this.description = description;
+    }
+
+    @Override
+    public String getName() {
+        return name();
     }
 
     @Override
