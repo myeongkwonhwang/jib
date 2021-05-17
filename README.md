@@ -21,7 +21,7 @@
 ### Infra
     
 
-## Project Stucture
+## Project Structure
 ~~~
 └─ src
     ├─ main
@@ -35,12 +35,14 @@
     │   │                  │   │   ├─ dao       - Repository
     │   │                  │   │   ├─ dto       - Request, Response obj
     │   │                  │   │   ├─ entity    - domain entity, Enum
+    │   │                  │   │   ├─ enums     - Enum
     │   │                  │   │   └─ service   - bisiness logic
     │   │                  │   ├─ ...   
     │   │                  │   │   ├─ api       - RestController 
     │   │                  │   │   ├─ dao       - Repository
     │   │                  │   │   ├─ dto       - Request, Response obj
-    │   │                  │   │   ├─ entity    - domain entity, Enum
+    │   │                  │   │   ├─ entity    - domain entity
+    │   │                  │   │   ├─ enums     - Enum 
     │   │                  │   │   └─ service   - bisiness logic    
     │   │                  └─ global
     │   │                       ├─ common         - 공통사용 obj
