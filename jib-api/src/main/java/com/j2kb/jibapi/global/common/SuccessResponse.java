@@ -21,7 +21,15 @@ public class SuccessResponse {
         this.payload = payload;
     }
 
+    public SuccessResponse(int value, String reasonPhrase) {
+        this(value, reasonPhrase, null);
+    }
+
     public static SuccessResponse success(Object payload) {
         return new SuccessResponse(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), payload);
+    }
+
+    public static SuccessResponse success() {
+        return new SuccessResponse(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase());
     }
 }
