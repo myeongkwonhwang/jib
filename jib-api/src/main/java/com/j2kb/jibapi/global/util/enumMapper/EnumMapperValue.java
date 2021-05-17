@@ -7,27 +7,30 @@ package com.j2kb.jibapi.global.util.enumMapper;
  */
 public class EnumMapperValue {
 
-    String name;
-    String title;
+    private String name;
+    private String code;
+    private String description;
 
     public EnumMapperValue(EnumMapperType enumMapperType) {
-        name = enumMapperType.getName();
-        title = enumMapperType.getTitle();
+        this.name = enumMapperType.getName();
+        this.code = enumMapperType.getCode();
+        this.description = enumMapperType.getDescription();
     }
 
     public String getName() {
         return name;
     }
 
-    public String getTitle() {
-        return title;
-    }
+    public String getCode() { return code; }
+
+    public String getDescription() { return description; }
 
     @Override
     public String toString() {
         return "{" +
-                 "code : " + name + "\'" +
-                 "description : " + title + "\'" +
-                "}";
+                "name='" + name + '\'' +
+                ", code='" + code + '\'' +
+                ", description='" + description + '\'' +
+                '}';
     }
 }

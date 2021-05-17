@@ -1,9 +1,9 @@
 package com.j2kb.jibapi.global.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.j2kb.jibapi.domain.user.enums.CodeEnum;
-import com.j2kb.jibapi.domain.user.enums.Preferences;
+import com.j2kb.jibapi.domain.user.enums.*;
 import com.j2kb.jibapi.global.util.enumMapper.EnumMapper;
+import com.j2kb.jibapi.global.util.enumMapper.EnumMapperType;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
@@ -39,21 +39,24 @@ public class ApplicationConfig {
                 .setMatchingStrategy(MatchingStrategies.STRICT);
         modelMapper.addConverter(codeEnumToStringConverter());
         return modelMapper;
-        //https://github.com/modelmapper/modelmapper/issues/212
     }
 
     @Bean
     public EnumMapper enumMapper() {
         EnumMapper enumMapper = new EnumMapper();
+        enumMapper.put("DistancePreference", DistancePreference.class);
+        enumMapper.put("HouseType", HouseType.class);
+        enumMapper.put("LoginType", LoginType.class);
         enumMapper.put("Preferences", Preferences.class);
+        enumMapper.put("UserType", UserType.class);
         return enumMapper;
     }
 
-    public Converter<CodeEnum, String> codeEnumToStringConverter() {
-        return new AbstractConverter<CodeEnum, String>() {
+    public Converter<EnumMapperType, String> codeEnumToStringConverter() {
+        return new AbstractConverter<>() {
             @Override
-            protected String convert(CodeEnum codeEnum) {
-                return codeEnum.getCode();
+            protected String convert(EnumMapperType enumMapperType) {
+                return enumMapperType.getCode();
             }
         };
     }

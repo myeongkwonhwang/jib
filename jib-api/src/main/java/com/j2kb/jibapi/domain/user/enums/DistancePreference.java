@@ -1,10 +1,12 @@
 package com.j2kb.jibapi.domain.user.enums;
 
 import java.util.Arrays;
+
+import com.j2kb.jibapi.global.util.enumMapper.EnumMapperType;
 import lombok.Getter;
 
 @Getter
-public enum DistancePreference implements CodeEnum {
+public enum DistancePreference implements EnumMapperType {
     TEN("AC01", "10"),
     TWENTY("AC02", "20"),
     THIRTY("AC03", "30"),
@@ -16,6 +18,11 @@ public enum DistancePreference implements CodeEnum {
     DistancePreference(String code, String description) {
         this.code = code;
         this.description = description;
+    }
+
+    @Override
+    public String getName() {
+        return name();
     }
 
     @Override
