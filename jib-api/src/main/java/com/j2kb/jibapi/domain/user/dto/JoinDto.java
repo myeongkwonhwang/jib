@@ -1,10 +1,7 @@
 package com.j2kb.jibapi.domain.user.dto;
 
-import com.j2kb.jibapi.domain.user.entity.AdditionalInfo;
 import com.j2kb.jibapi.domain.user.entity.User;
-import com.j2kb.jibapi.domain.user.enums.HouseType;
 import com.j2kb.jibapi.domain.user.enums.LoginType;
-import com.j2kb.jibapi.domain.user.enums.Preferences;
 import com.j2kb.jibapi.domain.user.enums.UserType;
 import lombok.*;
 
