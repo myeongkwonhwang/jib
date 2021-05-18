@@ -59,8 +59,8 @@ class UserApiTest {
         .password("1111")
         .firstName("hayeon")
         .lastName("kim")
-        .loginType(LoginType.BASIC)
-        .userType(UserType.STUDENT)
+        .loginType(LoginType.BASIC.getName())
+        .userType(UserType.STUDENT.getName())
         .build();
 
     @BeforeEach
