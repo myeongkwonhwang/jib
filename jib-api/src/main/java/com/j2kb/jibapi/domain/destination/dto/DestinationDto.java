@@ -16,6 +16,7 @@ public class DestinationDto {
     @Setter
     @ToString
     @Builder
+    @NoArgsConstructor
     public static class SaveReq {
 
         @NotNull
@@ -34,23 +35,22 @@ public class DestinationDto {
 
         @NotNull
         @ApiModelProperty("우편번호")
-        private String zipcode;
+        private String zipCode;
 
+        @NotNull
         @ApiModelProperty("경도")
         private Double latitude;
 
+        @NotNull
         @ApiModelProperty("위도")
         private Double longitude;
 
-        public SaveReq() {
-        }
-
-        public SaveReq(String name, String country, String province, String city, String zipcode, Double latitude, Double longitude) {
+        public SaveReq(String name, String country, String province, String city, String zipCode, Double latitude, Double longitude) {
             this.name = name;
             this.country = country;
             this.province = province;
             this.city = city;
-            this.zipcode = zipcode;
+            this.zipCode = zipCode;
             this.latitude = latitude;
             this.longitude = longitude;
         }
@@ -60,6 +60,7 @@ public class DestinationDto {
     @Setter
     @ToString
     @Builder
+    @NoArgsConstructor
     public static class SaveRes {
 
         @ApiModelProperty("목적지 고유번호") //swagger
@@ -85,9 +86,6 @@ public class DestinationDto {
 
         @ApiModelProperty("위도")
         private Double longitude;
-
-        public SaveRes() {
-        }
 
         public SaveRes(Long dstno, String name, String country, String province, String city, String zipcode, Double latitude, Double longitude) {
             this.dstno = dstno;

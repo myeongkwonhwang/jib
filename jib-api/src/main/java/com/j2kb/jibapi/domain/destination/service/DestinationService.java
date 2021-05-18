@@ -7,9 +7,8 @@ import com.j2kb.jibapi.domain.interfaces.BasicServiceSupport;
 import com.j2kb.jibapi.global.error.exception.ErrorCode;
 import com.j2kb.jibapi.global.error.exception.InvalidValueException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 /**
  * Created by mkhwang on 2021/05/08
@@ -18,37 +17,23 @@ import java.util.Optional;
  */
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class DestinationService extends BasicServiceSupport {
 
     private final DestinationRepository destinationRepository;
 
     public DestinationDto.SaveRes create(DestinationDto.SaveReq saveReq) {
-        Destination destination = saveReqToDestination(saveReq);
-        saveDestination(destination);
-        return destinationToSaveRes(destination);
-    }
-
-    private DestinationDto.SaveRes destinationToSaveRes(Destination destination) {
+        Destination destination = destinationRepository.save(modelMapper.map(saveReq, Destination.class));
         return modelMapper.map(destination, DestinationDto.SaveRes.class);
     }
 
-    private void saveDestination(Destination destination) {
-        destinationRepository.save(destination);
-    }
-
-    private Destination saveReqToDestination(DestinationDto.SaveReq saveReq) {
-        Destination destination = modelMapper.map(saveReq, Destination.class);
-        return destination;
-    }
-
     public DestinationDto.SaveRes search(Long dstNo) {
-        return destinationToSaveRes(getDestinationByDstNo(dstNo));
+        Destination destination = getDestinationByDstNo(dstNo);
+        return modelMapper.map(destination, DestinationDto.SaveRes.class);
     }
 
     private Destination getDestinationByDstNo(Long dstNo) {
-        Optional<Destination> destinationOp = destinationRepository.findById(dstNo);
-        if(destinationOp.isEmpty()) throw new InvalidValueException(ErrorCode.ENTITY_NOT_FOUND);
-
-        return destinationOp.get();
+        Destination destination = destinationRepository.findById(dstNo).orElseThrow(() -> new InvalidValueException(ErrorCode.ENTITY_NOT_FOUND));
+        return destination;
     }
 }
