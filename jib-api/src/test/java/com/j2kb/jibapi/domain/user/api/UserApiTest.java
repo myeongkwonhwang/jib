@@ -59,9 +59,8 @@ class UserApiTest {
         .password("1111")
         .firstName("hayeon")
         .lastName("kim")
-        .loginType(LoginType.BASIC.getCode())
-        .userType(UserType.STUDENT.getCode())
-        .validationImg("img")
+        .loginType(LoginType.BASIC)
+        .userType(UserType.STUDENT)
         .build();
 
     @BeforeEach
@@ -77,18 +76,17 @@ class UserApiTest {
         JoinDto.BasicReq req = JoinDto.BasicReq.builder()
             .email("hayeon@gmail.com")
             .password("1111")
-            .firstname("hayeon")
-            .lastname("kim")
-            .logintype(LoginType.BASIC)
-            .usertype(UserType.STUDENT)
-            .validationImg("img").build();
+            .firstName("hayeon")
+            .lastName("kim")
+            .loginType(LoginType.BASIC)
+            .userType(UserType.STUDENT).build();
 
         JoinDto.BasicRes res = JoinDto.BasicRes.builder()
                 .email("hayeon@gmail.com")
-                .firstname("hayeon")
-                .lastname("kim")
-                .logintype(LoginType.BASIC)
-                .usertype(UserType.STUDENT)
+                .firstName("hayeon")
+                .lastName("kim")
+                .loginType(LoginType.BASIC)
+                .userType(UserType.STUDENT)
                 .build();
 
         given(userJoinService.create(any())).willReturn(res);
