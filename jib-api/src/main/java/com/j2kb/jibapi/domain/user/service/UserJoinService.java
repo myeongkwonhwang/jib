@@ -15,11 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
-<<<<<<< HEAD
-import java.util.Optional;
-=======
 import java.nio.charset.StandardCharsets;
->>>>>>> 57a26a9ec839f444debe02c65ea02f4f250c129f
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
