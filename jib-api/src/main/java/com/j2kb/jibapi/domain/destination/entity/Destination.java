@@ -1,17 +1,14 @@
 package com.j2kb.jibapi.domain.destination.entity;
 
+import com.j2kb.jibapi.global.common.DateAudit;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
-import java.util.Date;
+import java.io.Serializable;
 
 /**
  * Created by mkhwang on 2021/05/08
@@ -24,7 +21,9 @@ import java.util.Date;
 @DynamicUpdate
 @ApiModel(value = "destination", description = "목적지") //swagger
 @Data
-public class Destination {
+public class Destination extends DateAudit implements Serializable {
+
+    private static final long serialVersionUID = 730783540012762025L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,13 +58,5 @@ public class Destination {
     @Column(name = "longitude")
     @ApiModelProperty("위도")
     private Double longitude;
-
-    @Column(name = "created_at")
-    @ApiModelProperty("작성일")
-    private Date createdAt;
-
-    @Column(name = "updated_at")
-    @ApiModelProperty("수정일")
-    private Date updatedAt;
 
 }
