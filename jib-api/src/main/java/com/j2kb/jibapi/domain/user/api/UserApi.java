@@ -6,10 +6,8 @@ import com.j2kb.jibapi.global.common.SuccessResponse;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -33,5 +31,12 @@ public class UserApi {
     public SuccessResponse login(@Valid @RequestBody JoinDto.BasicReq basicReq) {
         JoinDto.BasicRes basicRes = userJoinService.create(basicReq);
         return SuccessResponse.success(basicRes);
+    }
+
+    @DeleteMapping("/{userno}")
+    @ApiOperation(value = "회원탈퇴")
+    public SuccessResponse delete(@PathVariable("userno") Integer userno){
+        //no need to return the payload for deleting user
+        return userJoinService.delete(userno);
     }
 }
