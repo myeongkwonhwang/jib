@@ -61,7 +61,7 @@ class DestinationApiTest {
                 .longitude(0.0)
                 .name("황명권")
                 .province("province")
-                .zipcode("zipCode")
+                .zipCode("zipCode")
                 .build();
 
         String json = objectMapper.writeValueAsString(saveReq);
@@ -82,7 +82,7 @@ class DestinationApiTest {
                 .longitude(0.0)
                 .name("황명권")
                 .province("province")
-                .zipcode("zipCode")
+                .zipCode("zipCode")
                 .build();
 
         DestinationDto.SaveRes save = destinationService.create(saveReq);

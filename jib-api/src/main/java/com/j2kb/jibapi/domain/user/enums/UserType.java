@@ -7,16 +7,14 @@ import lombok.Getter;
 
 @Getter
 public enum UserType implements EnumMapperType {
-    STUDENT("AB01", "student"),
-    PARENT("AB02", "parent"),
-    WORKER("AB03", "worker"),
-    HOST("AB04", "host");
+    STUDENT("student"),
+    PARENT("parent"),
+    WORKER("worker"),
+    HOST("host");
 
-    private String code;
     private String description;
 
-    UserType(String code, String description) {
-        this.code = code;
+    UserType(String description) {
         this.description = description;
     }
 
@@ -26,19 +24,14 @@ public enum UserType implements EnumMapperType {
     }
 
     @Override
-    public String getCode() {
-        return code;
-    }
-
-    @Override
     public String getDescription() {
         return description;
     }
 
-    public static UserType findByCode(String code) {
+    public static UserType findByCode(String name) {
         return Arrays.stream(UserType.values())
-            .filter(value -> value.getCode().equals(code))
-            .findAny()
-            .orElse(null);
+                .filter(value -> name.equals(value.getName()))
+                .findAny()
+                .orElse(null);
     }
 }

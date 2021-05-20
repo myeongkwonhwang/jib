@@ -23,44 +23,46 @@ public class JoinDto {
         private String password;
 
         @NotNull
-        private String firstname;
+        private String firstName;
 
         @NotNull
-        private String lastname;
+        private String lastName;
 
-        private String birthyear;
+        private String birthYear;
 
-        private String langcd;
+        private String langCd;
 
-        private String phonenum;
+        private String phoneNum;
 
-        private String profileimg;
-
-        @NotNull
-        private LoginType logintype;
+        private String profileImg;
 
         @NotNull
-        private UserType usertype;
+        private LoginType loginType;
 
         @NotNull
+        private UserType userType;
+
         private String validationImg;
     }
+
     @Data
     @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class BasicRes {
         private String email;
-        private String firstname;
-        private String lastname;
-        private LoginType logintype;
-        private UserType usertype;
+        private String firstName;
+        private String lastName;
+        private LoginType loginType;
+        private UserType userType;
 
         public static BasicRes of(User user) {
             return BasicRes.builder()
                 .email(user.getEmail())
-                .firstname(user.getFirstName())
-                .lastname(user.getLastName())
-                .logintype(LoginType.findByCode(user.getLoginType()))
-                .usertype(UserType.findByCode(user.getUserType()))
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .loginType(LoginType.findByCode(user.getLoginType()))
+                .userType(UserType.findByCode(user.getUserType()))
                 .build();
         }
     }

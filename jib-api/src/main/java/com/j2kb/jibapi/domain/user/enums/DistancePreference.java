@@ -7,16 +7,14 @@ import lombok.Getter;
 
 @Getter
 public enum DistancePreference implements EnumMapperType {
-    TEN("AC01", "10"),
-    TWENTY("AC02", "20"),
-    THIRTY("AC03", "30"),
-    ANY("AC04", "Doesn't Matter");
+    TEN("10"),
+    TWENTY("20"),
+    THIRTY("30"),
+    ANY("Doesn't Matter");
 
-    private String code;
     private String description;
 
-    DistancePreference(String code, String description) {
-        this.code = code;
+    DistancePreference(String description) {
         this.description = description;
     }
 
@@ -26,19 +24,14 @@ public enum DistancePreference implements EnumMapperType {
     }
 
     @Override
-    public String getCode() {
-        return code;
-    }
-
-    @Override
     public String getDescription() {
         return description;
     }
 
-    public static DistancePreference findByCode(String code) {
+    public static DistancePreference findByCode(String name) {
         return Arrays.stream(DistancePreference.values())
-            .filter(value -> value.getCode().equals(code))
-            .findAny()
-            .orElse(null);
+                .filter(value -> name.equals(value.getName()))
+                .findAny()
+                .orElse(null);
     }
 }

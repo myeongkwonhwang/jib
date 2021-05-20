@@ -8,12 +8,10 @@ package com.j2kb.jibapi.global.util.enumMapper;
 public class EnumMapperValue {
 
     private String name;
-    private String code;
     private String description;
 
     public EnumMapperValue(EnumMapperType enumMapperType) {
         this.name = enumMapperType.getName();
-        this.code = enumMapperType.getCode();
         this.description = enumMapperType.getDescription();
     }
 
@@ -21,15 +19,12 @@ public class EnumMapperValue {
         return name;
     }
 
-    public String getCode() { return code; }
-
     public String getDescription() { return description; }
 
     @Override
     public String toString() {
         return "{" +
                 "name='" + name + '\'' +
-                ", code='" + code + '\'' +
                 ", description='" + description + '\'' +
                 '}';
     }

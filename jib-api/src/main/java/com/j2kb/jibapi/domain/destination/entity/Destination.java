@@ -11,6 +11,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * Created by mkhwang on 2021/05/08
@@ -22,84 +23,49 @@ import java.sql.Timestamp;
 @DynamicInsert
 @DynamicUpdate
 @ApiModel(value = "destination", description = "목적지") //swagger
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Data
 public class Destination {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @ApiModelProperty("목적지 고유번호") //swagger
+    @ApiModelProperty("목적지 고유번호")
+    @Column(name = "dst_no")
     private Long dstno;
 
+    @Column(name = "name")
     @ApiModelProperty("목적지 이름")
     private String name;
 
+    @Column(name = "country")
     @ApiModelProperty("나라")
     private String country;
 
+    @Column(name = "province")
     @ApiModelProperty("도/시/군")
     private String province;
 
+    @Column(name = "city")
     @ApiModelProperty("시")
     private String city;
 
+    @Column(name = "zip_code")
     @ApiModelProperty("우편번호")
-    private String zipcode;
+    private String zipCode;
 
+    @Column(name = "latitude")
     @ApiModelProperty("경도")
     private Double latitude;
 
+    @Column(name = "longitude")
     @ApiModelProperty("위도")
     private Double longitude;
 
-    /*private Timestamp createdAt;
+    @Column(name = "created_at")
+    @ApiModelProperty("작성일")
+    private Date createdAt;
 
-    private Timestamp updatedAt;*/
+    @Column(name = "updated_at")
+    @ApiModelProperty("수정일")
+    private Date updatedAt;
+
 }
-/*
-
-const Student = {
-            id: `Unique String, SHA16`,
-            personalInfo: {
-            firstName: `String, VARCHAR=20`,
-            lastName: `String, VARCHAR=20`,
-            age: `Int, 3`,
-            language: `String, VARCHAR`,
-            email: `String, VARCHAR`,
-            password: `String`,
-            phoneNum: `String, VARCHAR optional`,
-            profileImg: "URL",
-},
-targetDestionation: {
-    school: `String, VARCHAR=30`, /// Request the location from the google map or mapbox api to get the location data
-    country: `String, `, // Country Code
-    province: `String, `,
-    zipCode: `String, VARCHAR`,
-    lat: `Int`,
-    lng: `Int`,
-},
-하연: 1
-인증사진 테이블
-- 유저시퀀스1
-- 사진이름havard
-
-
-row삭제하는 로직 +
-1 havard
-1 seoulnatinal
-1 google
-2
-
-        validateID: {
-
-        isPhotoIDProvided: `Boolean, optional default = false`,
-        isAccepted: `Boolean, default = false`,
-        },
-        mustHave: {
-        rideDistanceFromSchool: `10 mins or 20 mins or 30 mins`,
-        houseStyle: `entire house, private room, shared room, shared house`,
-        host: ["#meal", "#ride", "#religion: Christian", "#wifi", "#pet"],
-        },
-        };*/

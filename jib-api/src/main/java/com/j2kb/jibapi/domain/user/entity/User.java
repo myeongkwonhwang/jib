@@ -79,7 +79,7 @@ public class User {
     private Date updatedAt;
 
     @Column(name = "validation_img")
-    private String validationImg;
+    private byte[] validationImg;
 
     @Column(name = "is_accepted")
     private Boolean isAccepted;

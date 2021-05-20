@@ -3,6 +3,7 @@ package com.j2kb.jibapi.global.config.security;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -37,6 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
+        web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations()); // Spring Booot에서 제공해주는 static resource path
         web.ignoring().antMatchers(authWhiteList);
     }
 
@@ -62,6 +64,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .csrf().disable()
             .formLogin().disable()
             .authorizeRequests()
-            .anyRequest().authenticated();
+            .antMatchers("/admin").access("ROLE_ADMIN") //url 추후작성
+            .antMatchers("/**").permitAll();
+            //제한 해야할 pattern을 위로
     }
 }

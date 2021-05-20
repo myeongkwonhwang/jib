@@ -7,16 +7,14 @@ import lombok.Getter;
 
 @Getter
 public enum HouseType implements EnumMapperType {
-    ENTIRE("AD01", "entireHouse"),
-    SHARED("AD02", "sharedHouse"),
-    PRIVATE("AD03", "privateHouse"),
-    NO_PREFERNCE("AD04", "noPreference");
+    ENTIRE("entireHouse"),
+    SHARED("sharedHouse"),
+    PRIVATE("privateHouse"),
+    NO_PREFERNCE("noPreference");
 
-    private String code;
     private String description;
 
-    HouseType(String code, String description) {
-        this.code = code;
+    HouseType(String description) {
         this.description = description;
     }
 
@@ -26,19 +24,14 @@ public enum HouseType implements EnumMapperType {
     }
 
     @Override
-    public String getCode() {
-        return code;
-    }
-
-    @Override
     public String getDescription() {
         return description;
     }
 
-    public static HouseType findByCode(String code) {
+    public static HouseType findByCode(String name) {
         return Arrays.stream(HouseType.values())
-            .filter(value -> value.getCode().equals(code))
-            .findAny()
-            .orElse(null);
+                .filter(value -> name.equals(value.getName()))
+                .findAny()
+                .orElse(null);
     }
 }
