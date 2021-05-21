@@ -46,6 +46,16 @@ public class JoinDto {
     }
 
     @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class StudentReq {
+        private Integer userNo;
+        private Long dstNo;
+        private byte[] validationImg;
+    }
+
+    @Data
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor

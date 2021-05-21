@@ -87,7 +87,7 @@ class DestinationApiTest {
 
         DestinationDto.SaveRes save = destinationService.create(saveReq);
 
-        DestinationDto.SaveRes search = destinationService.search(save.getDstno());
+        DestinationDto.SaveRes search = destinationService.search(save.getDstNo());
 
         System.out.println(search.toString());
     }

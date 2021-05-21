@@ -1,6 +1,5 @@
 package com.j2kb.jibapi.domain.user.entity;
 
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
@@ -32,7 +31,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @ApiModelProperty("멤버 idx")
     @Column(name = "user_no")
-    private Integer userNo;
+    private Long userNo;
 
     @ApiModelProperty("이메일")
     @Column(name = "email")
@@ -77,6 +76,9 @@ public class User {
 
     @Column(name = "updated_at")
     private Date updatedAt;
+
+    @Column(name = "dst_no")
+    private Long dstNo;
 
     @Column(name = "validation_img")
     private byte[] validationImg;

@@ -63,8 +63,8 @@ public class DestinationDto {
     @NoArgsConstructor
     public static class SaveRes {
 
-        @ApiModelProperty("목적지 고유번호") //swagger
-        private Long dstno;
+        @ApiModelProperty("목적지 고유번호")
+        private Long dstNo;
 
         @ApiModelProperty("목적지 이름")
         private String name;
@@ -87,8 +87,8 @@ public class DestinationDto {
         @ApiModelProperty("위도")
         private Double longitude;
 
-        public SaveRes(Long dstno, String name, String country, String province, String city, String zipcode, Double latitude, Double longitude) {
-            this.dstno = dstno;
+        public SaveRes(Long dstNo, String name, String country, String province, String city, String zipcode, Double latitude, Double longitude) {
+            this.dstNo = dstNo;
             this.name = name;
             this.country = country;
             this.province = province;
