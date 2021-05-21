@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by mkhwang on 2021/05/08
  * Email : orange2652@gmail.com
@@ -35,5 +37,11 @@ public class DestinationService extends BasicServiceSupport {
     private Destination getDestinationByDstNo(Long dstNo) {
         Destination destination = destinationRepository.findById(dstNo).orElseThrow(() -> new InvalidValueException(ErrorCode.ENTITY_NOT_FOUND));
         return destination;
+    }
+
+    public DestinationDto.CountryRes searchCountries() {
+        List<String> destinationList = destinationRepository.findByDistinctCountry();
+        DestinationDto.CountryRes res = new DestinationDto.CountryRes(destinationList);
+        return res;
     }
 }

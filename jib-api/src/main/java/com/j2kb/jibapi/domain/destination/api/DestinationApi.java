@@ -30,6 +30,13 @@ public class DestinationApi {
         return SuccessResponse.success(res);
     }
 
+    @GetMapping("/country")
+    @ApiOperation(value = "국가 조회")
+    public SuccessResponse searchCountries() {
+        DestinationDto.CountryRes res = destinationService.searchCountries();
+        return SuccessResponse.success(res);
+    }
+
     @GetMapping("/{dstNo}")
     @ApiOperation(value = "목적지 조회")
     public SuccessResponse search(@PathVariable Long dstNo) {

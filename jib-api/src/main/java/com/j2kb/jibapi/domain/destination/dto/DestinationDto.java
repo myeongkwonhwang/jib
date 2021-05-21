@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * Created by mkhwang on 2021/05/08
@@ -96,6 +97,20 @@ public class DestinationDto {
             this.zipcode = zipcode;
             this.latitude = latitude;
             this.longitude = longitude;
+        }
+    }
+
+    @Getter
+    @Setter
+    @ToString
+    @Builder
+    @NoArgsConstructor
+    public static class CountryRes {
+
+        private List<String> countries;
+
+        public CountryRes(List<String> countries) {
+            this.countries = countries;
         }
     }
 }
