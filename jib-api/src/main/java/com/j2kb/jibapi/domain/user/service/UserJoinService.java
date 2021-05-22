@@ -5,6 +5,7 @@ import com.j2kb.jibapi.domain.interfaces.BasicServiceSupport;
 import com.j2kb.jibapi.domain.user.dao.UserRepository;
 import com.j2kb.jibapi.domain.user.dto.JoinDto;
 import com.j2kb.jibapi.domain.user.entity.User;
+import com.j2kb.jibapi.domain.user.enums.StateType;
 import com.j2kb.jibapi.global.common.SuccessResponse;
 import com.j2kb.jibapi.global.error.exception.ErrorCode;
 import com.j2kb.jibapi.global.error.exception.InvalidValueException;
@@ -21,6 +22,7 @@ import java.util.Optional;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class UserJoinService extends BasicServiceSupport {
 
     private final UserRepository userRepository;

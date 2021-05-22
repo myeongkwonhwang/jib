@@ -93,7 +93,7 @@ public class User {
     private Boolean photoProvided;
 
     @Column(name = "state")
-    private Integer state;
+    private String state;
 
     // 권한: 유저-학생, ROLE_STUDENT
     // 유저-호스트,  ROLE_HOST
