@@ -42,7 +42,7 @@ public class UserApi {
 
     @DeleteMapping("/{userNo}")
     @ApiOperation(value = "회원탈퇴")
-    public SuccessResponse delete(@PathVariable("userNo") Integer userNo){
+    public SuccessResponse delete(@PathVariable("userNo") Long userNo){
         return userJoinService.delete(userNo);
     }
 

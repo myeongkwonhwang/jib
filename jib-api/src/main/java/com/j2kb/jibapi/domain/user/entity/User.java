@@ -1,15 +1,17 @@
 package com.j2kb.jibapi.domain.user.entity;
 
+import com.j2kb.jibapi.domain.user.enums.StateType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 /**
@@ -27,6 +29,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @AllArgsConstructor
 @Builder
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @ApiModelProperty("멤버 idx")
@@ -95,17 +98,11 @@ public class User {
     // 권한: 유저-학생, ROLE_STUDENT
     // 유저-호스트,  ROLE_HOST
     // 관리자 ROLE_ADMIN
+    @Column(name = "authority")
+    private String authority;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_auth"
-    )
-    private Set<Authority> authorities;
+    @PrePersist
+    public void prePersist() {
+        this.state = StateType.ACTIVE.getName();
+    }
 }
-/*
- validateID: {
-
-         isPhotoIDProvided: `Boolean, optional default = false`,
-        isAccepted: `Boolean, default = false`,
-        }
-  */

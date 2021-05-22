@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.j2kb.jibapi.domain.user.dto.JoinDto;
 import com.j2kb.jibapi.domain.user.entity.User;
 import com.j2kb.jibapi.domain.user.enums.LoginType;
+import com.j2kb.jibapi.domain.user.enums.StateType;
 import com.j2kb.jibapi.domain.user.enums.UserType;
 import com.j2kb.jibapi.domain.user.service.UserJoinService;
 import org.junit.jupiter.api.BeforeEach;
@@ -118,7 +119,7 @@ class UserApiTest {
 
         User user = new User();
         user.setUserNo(1111L);
-        user.setState(1);
+        user.setState(StateType.ACTIVE.getName());
         user.setEmail("dahoon@gmail.com");
 
 //        JoinDto.BasicReq req = JoinDto.BasicReq.builder()

@@ -43,6 +43,8 @@ public class JoinDto {
         private UserType userType;
 
         private String validationImg;
+
+        private String authority;
     }
 
     @Data
@@ -50,8 +52,10 @@ public class JoinDto {
     @AllArgsConstructor
     @Builder
     public static class StudentReq {
-        private Integer userNo;
+        private Long userNo;
+        @NotNull
         private Long dstNo;
+        @NotNull
         private byte[] validationImg;
     }
 
@@ -60,14 +64,17 @@ public class JoinDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class BasicRes {
+        private Long userNo;
         private String email;
         private String firstName;
         private String lastName;
         private LoginType loginType;
         private UserType userType;
+        private String authority;
 
         public static BasicRes of(User user) {
             return BasicRes.builder()
+                .userNo(user.getUserNo())
                 .email(user.getEmail())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
