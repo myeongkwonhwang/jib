@@ -9,6 +9,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
 public class JoinDto {
+
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
@@ -45,6 +46,7 @@ public class JoinDto {
         private String validationImg;
 
         private String authority;
+
     }
 
     @Data

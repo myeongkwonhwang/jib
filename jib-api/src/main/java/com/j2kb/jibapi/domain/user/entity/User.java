@@ -1,11 +1,13 @@
 package com.j2kb.jibapi.domain.user.entity;
 
+import com.j2kb.jibapi.domain.user.dto.JoinDto;
 import com.j2kb.jibapi.domain.user.enums.StateType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -104,5 +106,11 @@ public class User {
     @PrePersist
     public void prePersist() {
         this.state = StateType.ACTIVE.getName();
+    }
+
+    public void update(JoinDto.BasicReq userReq) {
+        if(userReq.getFirstName() != null) this.firstName = userReq.getFirstName();
+        if(userReq.getLastName() != null) this.lastName = userReq.getLastName();
+
     }
 }

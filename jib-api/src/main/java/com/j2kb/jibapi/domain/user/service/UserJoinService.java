@@ -5,7 +5,6 @@ import com.j2kb.jibapi.domain.user.dao.UserRepository;
 import com.j2kb.jibapi.domain.user.dto.JoinDto;
 import com.j2kb.jibapi.domain.user.entity.User;
 import com.j2kb.jibapi.domain.user.enums.StateType;
-import com.j2kb.jibapi.global.common.SuccessResponse;
 import com.j2kb.jibapi.global.error.exception.ErrorCode;
 import com.j2kb.jibapi.global.error.exception.InvalidValueException;
 import lombok.RequiredArgsConstructor;
@@ -41,9 +40,8 @@ public class UserJoinService extends BasicServiceSupport {
         }
     }
 
-    public User getUserByUserNo(Long userNo) {
+    private User getUserByUserNo(Long userNo) {
         Optional<User> user = userRepository.findById(userNo);
-
         return user.orElseThrow(() -> new InvalidValueException(ErrorCode.ENTITY_NOT_FOUND));
     }
 
@@ -66,4 +64,6 @@ public class UserJoinService extends BasicServiceSupport {
         user.setDstNo(studentReq.getDstNo());
         user.setPhotoProvided(true);
     }
+
+
 }

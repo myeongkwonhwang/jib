@@ -29,4 +29,5 @@ public class CustomDestinationRepositoryImpl implements CustomDestinationReposit
                     .groupBy(destination.country)
                     .fetch();
         }
+
 }

@@ -113,4 +113,15 @@ public class DestinationDto {
             this.countries = countries;
         }
     }
+
+    public static class Example {
+        private String country;
+        private String city;
+        public Example(){}
+        public Example(String country, String city){
+            this.country = country;
+            this.city = city;
+        }
+
+    }
 }

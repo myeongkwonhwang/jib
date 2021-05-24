@@ -56,3 +56,8 @@ CREATE TABLE jib.user (
                           CONSTRAINT pk_user PRIMARY KEY (user_no)
 );
 
+CREATE TABLE jib.user_preference (
+                          user_no int8 NOT null default nextval('jib.user_user_no_seq'::regclass),
+
+);
+

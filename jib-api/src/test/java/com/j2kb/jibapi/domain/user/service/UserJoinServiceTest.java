@@ -29,6 +29,8 @@ class UserJoinServiceTest {
     @Autowired
     UserJoinService userJoinService;
     @Autowired
+    UserUpdateService userUpdateService;
+    @Autowired
     EntityManager entityManager;
 
 
@@ -95,5 +97,76 @@ class UserJoinServiceTest {
                 () -> assertEquals(basicRes.getEmail(), res.getEmail()),
                 () -> assertEquals(basicRes.getLoginType(), res.getLoginType())
         );
+    }
+
+    @Test
+    void updateTest_fail(){
+        //given
+        JoinDto.BasicReq req1 = JoinDto.BasicReq.builder()
+                .email("hayeon@gmail.com")
+                .password("1111")
+                .firstName("hayeon")
+                .lastName("kim")
+                .loginType(LoginType.BASIC)
+                .userType(UserType.STUDENT).build();
+
+
+        JoinDto.BasicReq req2 = JoinDto.BasicReq.builder()
+                .email("hayeon@gmail.com")
+                .firstName("dahoon")
+                .lastName("kim")
+                .loginType(LoginType.BASIC)
+                .userType(UserType.STUDENT)
+                .build();
+
+        JoinDto.BasicRes basicRes = userJoinService.create(req1);
+
+        //when
+        //exist
+        JoinDto.BasicRes basicRes2 = userUpdateService.update(req2, 1L);
+        //non-exist
+        //JoinDto.BasicRes basicRes2 = userJoinService.update(req2, 2L);
+
+
+        //then
+        log.info(String.valueOf(basicRes2));
+        assertAll(
+                ()-> assertNotEquals(req1.getFirstName(), basicRes2.getFirstName())
+        );
+
+    }
+
+    @Test
+    void updateTest_success(){
+        //given
+        JoinDto.BasicReq req1 = JoinDto.BasicReq.builder()
+                .email("hayeon@gmail.com")
+                .password("1111")
+                .firstName("hayeon")
+                .lastName("kim")
+                .loginType(LoginType.BASIC)
+                .userType(UserType.STUDENT).build();
+
+
+        JoinDto.BasicReq req2 = JoinDto.BasicReq.builder()
+                .email("hayeon@gmail.com")
+                .firstName("dahoon")
+                .lastName("kim")
+                .loginType(LoginType.BASIC)
+                .userType(UserType.STUDENT)
+                .build();
+
+        JoinDto.BasicRes basicRes = userJoinService.create(req1);
+
+        //when
+        JoinDto.BasicRes basicRes2 = userUpdateService.update(req2, 1L);
+
+
+        //then
+        log.info(String.valueOf(basicRes2));
+        assertAll(
+                ()-> assertEquals("dahoon", basicRes2.getFirstName())
+        );
+
     }
 }
