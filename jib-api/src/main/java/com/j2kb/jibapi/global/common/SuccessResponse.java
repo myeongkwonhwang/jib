@@ -1,6 +1,5 @@
 package com.j2kb.jibapi.global.common;
 
-import lombok.Builder;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 

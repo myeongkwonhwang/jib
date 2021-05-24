@@ -1,6 +1,5 @@
 package com.j2kb.jibapi.domain.user.service;
 
-import com.j2kb.jibapi.domain.destination.service.DestinationService;
 import com.j2kb.jibapi.domain.interfaces.BasicServiceSupport;
 import com.j2kb.jibapi.domain.user.dao.UserRepository;
 import com.j2kb.jibapi.domain.user.dto.JoinDto;
@@ -11,12 +10,8 @@ import com.j2kb.jibapi.global.error.exception.ErrorCode;
 import com.j2kb.jibapi.global.error.exception.InvalidValueException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-
-import javax.validation.Valid;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
@@ -29,7 +24,7 @@ public class UserJoinService extends BasicServiceSupport {
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public JoinDto.BasicRes create(@RequestBody @Valid JoinDto.BasicReq userReq) {
+    public JoinDto.BasicRes create(JoinDto.BasicReq userReq) {
         controlParams(userReq);
         User user = modelMapper.map(userReq, User.class);
         controlValidationImg(userReq, user);
@@ -52,11 +47,10 @@ public class UserJoinService extends BasicServiceSupport {
         return user.orElseThrow(() -> new InvalidValueException(ErrorCode.ENTITY_NOT_FOUND));
     }
 
-    public SuccessResponse delete(Long userNo){
+    public void delete(Long userNo){
         User user = getUserByUserNo(userNo);
         user.setState(StateType.DELETED.getName());
         userRepository.save(user);
-        return new SuccessResponse(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase());
     }
 
     public JoinDto.BasicRes addAdditionalInfo(JoinDto.StudentReq studentReq) {

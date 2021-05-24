@@ -3,6 +3,7 @@ package com.j2kb.jibapi.domain.user.api;
 import com.j2kb.jibapi.domain.user.dto.JoinDto;
 import com.j2kb.jibapi.domain.user.service.UserJoinService;
 import com.j2kb.jibapi.global.common.SuccessResponse;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,8 +43,10 @@ public class UserApi {
 
     @DeleteMapping("/{userNo}")
     @ApiOperation(value = "회원탈퇴")
+    @ApiImplicitParam(name = "userNo", value = "유저 고유번호", required = true)
     public SuccessResponse delete(@PathVariable("userNo") Long userNo){
-        return userJoinService.delete(userNo);
+        userJoinService.delete(userNo);
+        return SuccessResponse.success();
     }
 
 

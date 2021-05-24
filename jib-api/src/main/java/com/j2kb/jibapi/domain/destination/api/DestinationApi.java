@@ -2,6 +2,7 @@ package com.j2kb.jibapi.domain.destination.api;
 
 import com.j2kb.jibapi.domain.destination.service.DestinationService;
 import com.j2kb.jibapi.global.common.SuccessResponse;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +40,7 @@ public class DestinationApi {
 
     @GetMapping("/{dstNo}")
     @ApiOperation(value = "목적지 조회")
+    @ApiImplicitParam(name = "dstNo", value = "목적지 고유번호", required = true)
     public SuccessResponse search(@PathVariable Long dstNo) {
         DestinationDto.SaveRes res = destinationService.search(dstNo);
         return SuccessResponse.success(res);
