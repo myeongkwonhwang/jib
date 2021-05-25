@@ -39,6 +39,7 @@ public class SwaggerConfig {
         return new ApiInfoBuilder().title("JIB - REST APIs")
                 .description("J2KB JIB application.").termsOfServiceUrl("")
                 .contact(new Contact("Myeongkwon Hwang", "https://github.com/myeongkwonhwang", "orange2652@gmail.com"))
+                .contact(new Contact("Hayeon Kim", "https://github.com/hayeon17kim/", "hayeon17kim@gmail.com"))
                 .version("0.0.1")
                 .build();
     }
