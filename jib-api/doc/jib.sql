@@ -1,3 +1,13 @@
+create database jib encoding 'utf-8';
+
+create user jibuser password 'jib!23';
+
+alter database jib owner to jibuser;
+
+grant all on database jib to jibuser with grant option;
+
+create schema jib;
+
 -- DROP SEQUENCE jib.destination_dst_no_seq;
 
 CREATE SEQUENCE jib.destination_dst_no_seq
