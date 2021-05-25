@@ -29,7 +29,7 @@ public class Destination extends DateAudit implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @ApiModelProperty("목적지 고유번호")
     @Column(name = "dst_no")
-    private Long dstno;
+    private Long dstNo;
 
     @Column(name = "name")
     @ApiModelProperty("목적지 이름")

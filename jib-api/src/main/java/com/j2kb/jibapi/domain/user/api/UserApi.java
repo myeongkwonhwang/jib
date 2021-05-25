@@ -2,7 +2,10 @@ package com.j2kb.jibapi.domain.user.api;
 
 import com.j2kb.jibapi.domain.user.dto.JoinDto;
 import com.j2kb.jibapi.domain.user.service.UserJoinService;
+import com.j2kb.jibapi.domain.user.service.UserUpdateService;
 import com.j2kb.jibapi.global.common.SuccessResponse;
+import com.j2kb.jibapi.global.error.exception.EntityNotFoundException;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +20,7 @@ import javax.validation.Valid;
 public class UserApi {
 
     private final UserJoinService userJoinService;
+    private final UserUpdateService userUpdateService;
 
     @PostMapping
     @ApiOperation(value = "기본회원가입")
@@ -39,11 +43,24 @@ public class UserApi {
         return SuccessResponse.success(basicRes);
     }
 
-
     @DeleteMapping("/{userNo}")
     @ApiOperation(value = "회원탈퇴")
-    public SuccessResponse delete(@PathVariable("userNo") Integer userNo){
-        return userJoinService.delete(userNo);
+    @ApiImplicitParam(name = "userNo", value = "유저 고유번호", required = true)
+    public SuccessResponse delete(@PathVariable("userNo") Long userNo){
+        userJoinService.delete(userNo);
+        return SuccessResponse.success();
+    }
+
+    @PatchMapping("/{userNo}")
+    @ApiOperation(value="회원정보수정")
+    @ApiImplicitParam(name = "userNo", value = "유저 고유번호", required = true)
+    public SuccessResponse update(@PathVariable("userNo") Long userNo, @Valid @RequestBody JoinDto.BasicReq basicReq){
+//        if(userJoinService.update(basicReq, userNo)){
+//            return SuccessResponse.success();
+//        }else{
+//            throw new EntityNotFoundException("target user does not exists!");
+//        }
+        return null;
     }
 
 

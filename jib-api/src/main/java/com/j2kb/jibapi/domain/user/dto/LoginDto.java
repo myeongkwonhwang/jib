@@ -4,7 +4,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import lombok.Data;
 
-
 public class LoginDto {
     @Data
     public static class BasicReq {
@@ -25,3 +24,4 @@ public class LoginDto {
 
     }
 }
+

@@ -57,11 +57,10 @@ public class DestinationDto {
         }
     }
 
-    @Getter
-    @Setter
-    @ToString
+    @Data
     @Builder
     @NoArgsConstructor
+    @AllArgsConstructor
     public static class SaveRes {
 
         @ApiModelProperty("목적지 고유번호")
@@ -80,7 +79,7 @@ public class DestinationDto {
         private String city;
 
         @ApiModelProperty("우편번호")
-        private String zipcode;
+        private String zipCode;
 
         @ApiModelProperty("경도")
         private Double latitude;
@@ -88,16 +87,6 @@ public class DestinationDto {
         @ApiModelProperty("위도")
         private Double longitude;
 
-        public SaveRes(Long dstNo, String name, String country, String province, String city, String zipcode, Double latitude, Double longitude) {
-            this.dstNo = dstNo;
-            this.name = name;
-            this.country = country;
-            this.province = province;
-            this.city = city;
-            this.zipcode = zipcode;
-            this.latitude = latitude;
-            this.longitude = longitude;
-        }
     }
 
     @Getter
@@ -113,4 +102,5 @@ public class DestinationDto {
             this.countries = countries;
         }
     }
+
 }
