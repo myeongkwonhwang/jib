@@ -25,7 +25,7 @@ public class QDestination extends EntityPathBase<Destination> {
 
     public final StringPath country = createString("country");
 
-    public final NumberPath<Long> dstno = createNumber("dstno", Long.class);
+    public final NumberPath<Long> dstNo = createNumber("dstNo", Long.class);
 
     public final NumberPath<Double> latitude = createNumber("latitude", Double.class);
 
