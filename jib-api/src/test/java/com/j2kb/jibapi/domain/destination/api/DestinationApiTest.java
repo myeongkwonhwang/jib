@@ -4,18 +4,31 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.j2kb.jibapi.domain.destination.dto.DestinationDto;
 import com.j2kb.jibapi.domain.destination.service.DestinationService;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
+import java.util.Arrays;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -27,6 +40,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @SpringBootTest
 @AutoConfigureMockMvc
+@Slf4j
 class DestinationApiTest {
 
     @Autowired
@@ -35,7 +49,7 @@ class DestinationApiTest {
     @Autowired
     private ModelMapper modelMapper;
 
-    @Autowired
+    @Mock
     private DestinationService destinationService;
 
     @Autowired
@@ -53,7 +67,7 @@ class DestinationApiTest {
     }
 
     @Test
-    public void saveDestination_test() throws Exception {
+    public void createDestination_test() throws Exception {
         DestinationDto.SaveReq saveReq = DestinationDto.SaveReq.builder()
                 .city("city")
                 .country("country")
@@ -63,33 +77,47 @@ class DestinationApiTest {
                 .province("province")
                 .zipCode("zipCode")
                 .build();
+
+        DestinationDto.SaveRes res = DestinationDto.SaveRes.builder()
+                .city("city")
+                .country("country")
+                .latitude(0.0)
+                .longitude(0.0)
+                .name("황명권")
+                .province("province")
+                .zipCode("zipCode")
+                .build();
+
+        given(destinationService.create(saveReq)).willReturn(res);
 
         String json = objectMapper.writeValueAsString(saveReq);
 
-        mockMvc.perform(post("/api/v1/destination")
+        // when
+        final ResultActions actions = mockMvc.perform(post("/api/v1/destination")
                 .content(json)
-                .contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isOk());
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("utf-8"));
 
+        actions.andExpect(status().isOk())
+                .andReturn();
     }
 
     @Test
-    public void search_destinationt_test() throws JsonProcessingException {
-        DestinationDto.SaveReq saveReq = DestinationDto.SaveReq.builder()
-                .city("city")
-                .country("country")
-                .latitude(0.0)
-                .longitude(0.0)
-                .name("황명권")
-                .province("province")
-                .zipCode("zipCode")
+    void searchCountries_test() throws Exception {
+        DestinationDto.CountryRes res = DestinationDto.CountryRes.builder()
+                .countries(
+                        Arrays.asList(
+                                "seoul"
+                                , "daejeon"
+                        )
+                )
                 .build();
 
-        DestinationDto.SaveRes save = destinationService.create(saveReq);
+        given(destinationService.searchCountries()).willReturn(res);
 
-        DestinationDto.SaveRes search = destinationService.search(save.getDstNo());
+        final ResultActions actions = mockMvc.perform(get("/api/v1/destination/country"));
 
-        System.out.println(search.toString());
+        actions.andExpect(status().isOk()).andReturn();
     }
 
 }
