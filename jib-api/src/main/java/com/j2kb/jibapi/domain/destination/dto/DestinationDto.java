@@ -103,4 +103,43 @@ public class DestinationDto {
         }
     }
 
+    @Getter
+    @Setter
+    @ToString
+    @Builder
+    @NoArgsConstructor
+    public static class DestinationRes {
+
+        @ApiModelProperty("목적지 이름")
+        private String name;
+
+        @ApiModelProperty("나라")
+        private String country;
+
+        @ApiModelProperty("도/시/군")
+        private String province;
+
+        @ApiModelProperty("시")
+        private String city;
+
+        @ApiModelProperty("우편번호")
+        private String zipCode;
+
+        @ApiModelProperty("경도")
+        private Double latitude;
+
+        @ApiModelProperty("위도")
+        private Double longitude;
+
+        public DestinationRes(String name, String country, String province, String city, String zipCode, Double latitude, Double longitude) {
+            this.name = name;
+            this.country = country;
+            this.province = province;
+            this.city = city;
+            this.zipCode = zipCode;
+            this.latitude = latitude;
+            this.longitude = longitude;
+        }
+    }
+
 }

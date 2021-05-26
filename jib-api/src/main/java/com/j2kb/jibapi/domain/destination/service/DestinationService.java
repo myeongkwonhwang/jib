@@ -44,4 +44,8 @@ public class DestinationService extends BasicServiceSupport {
         DestinationDto.CountryRes res = new DestinationDto.CountryRes(destinationList);
         return res;
     }
+
+    public List<DestinationDto.DestinationRes> findDestinationByCountryOrderByNameAsc(String country) {
+        return destinationRepository.findDestinationByCountryOrderByNameAsc(country);
+    }
 }
