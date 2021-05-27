@@ -1,11 +1,14 @@
 package com.j2kb.jibapi.domain.user.entity;
 
+import com.google.common.collect.ImmutableMap;
 import com.j2kb.jibapi.domain.user.dto.JoinDto;
 import com.j2kb.jibapi.domain.user.enums.StateType;
+import io.jsonwebtoken.Claims;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -13,6 +16,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.tomcat.util.buf.StringUtils;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -112,5 +116,21 @@ public class User {
         if(userReq.getFirstName() != null) this.firstName = userReq.getFirstName();
         if(userReq.getLastName() != null) this.lastName = userReq.getLastName();
 
+    }
+
+    public Map<String,Object> toClaims(){
+        return ImmutableMap.<String,Object>builder()
+            .put("no"    , getUserNo())
+            .put("email"     , getEmail())
+            .put("auth", getAuthority())
+            .build();
+    }
+
+    public static User valueOf(Claims claims) {
+
+        return User.builder()
+            .userNo(Long.valueOf(claims.get("no").toString()))
+            .email((String) claims.get("email"))
+            .build();
     }
 }
