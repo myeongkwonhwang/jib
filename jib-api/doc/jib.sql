@@ -44,6 +44,7 @@ CREATE SEQUENCE jib.user_user_no_seq
 -- DROP TABLE jib.user;
 CREATE TABLE jib.user (
                           user_no int8 NOT null default nextval('jib.user_user_no_seq'::regclass),
+                          dst_no int8 null,
                           email varchar(100) NOT NULL,
                           first_name varchar(20) NOT NULL,
                           last_name varchar(20) NOT NULL,
