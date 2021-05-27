@@ -45,8 +45,6 @@ public class JoinDto {
 
         private String validationImg;
 
-        private String authority;
-
     }
 
     @Data

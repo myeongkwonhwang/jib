@@ -4,6 +4,7 @@ import com.j2kb.jibapi.domain.interfaces.BasicServiceSupport;
 import com.j2kb.jibapi.domain.user.dao.UserRepository;
 import com.j2kb.jibapi.domain.user.dto.JoinDto;
 import com.j2kb.jibapi.domain.user.entity.User;
+import com.j2kb.jibapi.domain.user.enums.Authority;
 import com.j2kb.jibapi.domain.user.enums.StateType;
 import com.j2kb.jibapi.global.error.exception.ErrorCode;
 import com.j2kb.jibapi.global.error.exception.InvalidValueException;
@@ -26,6 +27,9 @@ public class UserJoinService extends BasicServiceSupport {
     public JoinDto.BasicRes create(JoinDto.BasicReq userReq) {
         controlParams(userReq);
         User user = modelMapper.map(userReq, User.class);
+
+        //TODO : UserType에 따라 권한 부여 로직 필요
+        user.setAuthority(Authority.ROLE_STUDENT.getName());
         controlValidationImg(userReq, user);
         return modelMapper.map(userRepository.save(user), JoinDto.BasicRes.class);
     }
