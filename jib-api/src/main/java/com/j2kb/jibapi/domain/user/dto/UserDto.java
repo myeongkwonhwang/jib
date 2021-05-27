@@ -1,13 +1,15 @@
 package com.j2kb.jibapi.domain.user.dto;
 
 import com.j2kb.jibapi.domain.user.entity.User;
-import com.j2kb.jibapi.domain.user.enums.LoginType;
-import com.j2kb.jibapi.domain.user.enums.UserType;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 
 public class UserDto {
+
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
@@ -31,7 +33,7 @@ public class UserDto {
 
 
     @Data
-   @NoArgsConstructor
+    @NoArgsConstructor
     @AllArgsConstructor
     @Builder
     public static class UpdateRes{
