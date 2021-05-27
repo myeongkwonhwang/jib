@@ -37,5 +37,5 @@ public abstract class DateAudit implements Serializable {
     @ApiModelProperty(value = "수정일(시스템에서 자동 처리됨)")
     @LastModifiedDate
     @Column(name = "updated_at", nullable = false)
-    protected Instant modDt;
+    protected Date modDt;
 }

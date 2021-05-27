@@ -2,18 +2,15 @@ package com.j2kb.jibapi.domain.user.entity;
 
 import com.j2kb.jibapi.domain.user.dto.JoinDto;
 import com.j2kb.jibapi.domain.user.enums.StateType;
+import com.j2kb.jibapi.global.common.DateAudit;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.Date;
-import java.util.List;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 /**
@@ -30,7 +27,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User {
+public class User extends DateAudit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -75,12 +72,6 @@ public class User {
 
     @Column(name = "sns_token")
     private String snsToken;
-
-    @Column(name = "created_at")
-    private Date createdAt;
-
-    @Column(name = "updated_at")
-    private Date updatedAt;
 
     @Column(name = "dst_no")
     private Long dstNo;
