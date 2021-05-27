@@ -1,10 +1,11 @@
 package com.j2kb.jibapi.domain.user.api;
 
 import com.j2kb.jibapi.domain.user.dto.JoinDto;
+import com.j2kb.jibapi.domain.user.dto.PreferenceDto;
 import com.j2kb.jibapi.domain.user.service.UserJoinService;
+import com.j2kb.jibapi.domain.user.service.UserPreferenceService;
 import com.j2kb.jibapi.domain.user.service.UserUpdateService;
 import com.j2kb.jibapi.global.common.SuccessResponse;
-import com.j2kb.jibapi.global.error.exception.EntityNotFoundException;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,10 @@ import javax.validation.Valid;
 public class UserApi {
 
     private final UserJoinService userJoinService;
+
     private final UserUpdateService userUpdateService;
+
+    private final UserPreferenceService userPreferenceService;
 
     @PostMapping
     @ApiOperation(value = "기본회원가입")
@@ -57,5 +61,13 @@ public class UserApi {
     public SuccessResponse update(@PathVariable("userNo") Long userNo, @Valid @RequestBody JoinDto.BasicReq basicReq){
         JoinDto.BasicRes res = userUpdateService.update(basicReq, userNo);
         return SuccessResponse.success(res);
+    }
+
+    @PostMapping("/{userNo}/preference")
+    @ApiOperation(value = "user 선호사항")
+    @ApiImplicitParam(name = "userNo", value = "유저 고유번호", required = true, dataType = "Long", dataTypeClass = Long.class)
+    public SuccessResponse addPreference(@PathVariable("userNo") Long userNo, @Valid @RequestBody PreferenceDto.saveReq saveReq) {
+        userPreferenceService.create(userNo, saveReq);
+        return  SuccessResponse.success();
     }
 }
