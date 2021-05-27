@@ -45,7 +45,7 @@ public class UserJoinService extends BasicServiceSupport {
     }
 
     private User getUserByUserNo(Long userNo) {
-        Optional<User> user = userRepository.findById(userNo);
+        Optional<User> user = userRepository.findByUserNo(userNo);
         return user.orElseThrow(() -> new InvalidValueException(ErrorCode.ENTITY_NOT_FOUND));
     }
 
