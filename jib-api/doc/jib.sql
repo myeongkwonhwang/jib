@@ -66,8 +66,32 @@ CREATE TABLE jib.user (
                           CONSTRAINT pk_user PRIMARY KEY (user_no)
 );
 
-CREATE TABLE jib.user_preference (
-                          user_no int8 NOT null default nextval('jib.user_user_no_seq'::regclass),
+-- DROP TABLE jib.user_dst;
+CREATE TABLE jib.user_dst (
+                              user_no int8 NOT NULL,
+                              dst_no int8 NOT NULL,
+                              CONSTRAINT pk_userno_dstno PRIMARY KEY (user_no, dst_no),
+                              CONSTRAINT fk_dstno FOREIGN KEY (user_no) REFERENCES destination(dst_no),
+                              CONSTRAINT fk_userno FOREIGN KEY (user_no) REFERENCES "user"(user_no)
+);
 
+-- DROP SEQUENCE jib.user_preference_prf_no_seq;
+CREATE SEQUENCE jib.user_preference_prf_no_seq
+    INCREMENT BY 1
+    MINVALUE 1
+    MAXVALUE 2147483647
+    START 1
+    CACHE 1
+    NO CYCLE;
+
+-- DROP TABLE jib.user_preference
+CREATE TABLE jib.user_preference (
+                          prf_no int8 NOT NULL default nextval('jib.user_preference_prf_no_seq'::regclass),
+                          user_no int8 NOT null,
+                          dstnt_prf varchar(500) null,
+                          house_type varchar(500) null,
+                          preference varchar(4000) null,
+                          CONSTRAINT pk_user_preference PRIMARY KEY (prf_no),
+                          CONSTRAINT fk_userno FOREIGN KEY (user_no) REFERENCES "user"(user_no)
 );
 

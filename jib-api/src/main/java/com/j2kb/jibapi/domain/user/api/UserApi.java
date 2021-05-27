@@ -45,7 +45,7 @@ public class UserApi {
 
     @DeleteMapping("/{userNo}")
     @ApiOperation(value = "회원탈퇴")
-    @ApiImplicitParam(name = "userNo", value = "유저 고유번호", required = true)
+    @ApiImplicitParam(name = "userNo", value = "유저 고유번호", required = true, dataType = "Long", dataTypeClass = Long.class)
     public SuccessResponse delete(@PathVariable("userNo") Long userNo){
         userJoinService.delete(userNo);
         return SuccessResponse.success();
@@ -53,16 +53,9 @@ public class UserApi {
 
     @PatchMapping("/{userNo}")
     @ApiOperation(value="회원정보수정")
-    @ApiImplicitParam(name = "userNo", value = "유저 고유번호", required = true)
+    @ApiImplicitParam(name = "userNo", value = "유저 고유번호", required = true, dataType = "Long", dataTypeClass = Long.class)
     public SuccessResponse update(@PathVariable("userNo") Long userNo, @Valid @RequestBody JoinDto.BasicReq basicReq){
-//        if(userJoinService.update(basicReq, userNo)){
-//            return SuccessResponse.success();
-//        }else{
-//            throw new EntityNotFoundException("target user does not exists!");
-//        }
-        return null;
+        JoinDto.BasicRes res = userUpdateService.update(basicReq, userNo);
+        return SuccessResponse.success(res);
     }
-
-
-
 }

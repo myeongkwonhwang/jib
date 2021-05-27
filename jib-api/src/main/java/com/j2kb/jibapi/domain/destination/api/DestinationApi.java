@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import com.j2kb.jibapi.domain.destination.dto.DestinationDto;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * Created by mkhwang on 2021/05/08
@@ -32,15 +33,23 @@ public class DestinationApi {
     }
 
     @GetMapping("/country")
-    @ApiOperation(value = "국가 조회")
+    @ApiOperation(value = "목적지 국가 조회")
     public SuccessResponse searchCountries() {
         DestinationDto.CountryRes res = destinationService.searchCountries();
         return SuccessResponse.success(res);
     }
 
+    @GetMapping("/{country}")
+    @ApiOperation(value = "국가 별 학교 조회")
+    @ApiImplicitParam(name = "country", value = "목적지 국가", required = true, dataType = "String", dataTypeClass = String.class)
+    public SuccessResponse searchDestinationByCountry(@PathVariable("country")String country) {
+        List<DestinationDto.DestinationRes> res = destinationService.findDestinationByCountryOrderByNameAsc(country);
+        return SuccessResponse.success(res);
+    }
+
     @GetMapping("/{dstNo}")
     @ApiOperation(value = "목적지 조회")
-    @ApiImplicitParam(name = "dstNo", value = "목적지 고유번호", required = true)
+    @ApiImplicitParam(name = "dstNo", value = "목적지 고유번호", required = true, dataType = "Long", dataTypeClass = Long.class)
     public SuccessResponse search(@PathVariable Long dstNo) {
         DestinationDto.SaveRes res = destinationService.search(dstNo);
         return SuccessResponse.success(res);
