@@ -1,15 +1,17 @@
 package com.j2kb.jibapi.domain.user.api;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.j2kb.jibapi.domain.user.dto.JoinDto;
+import com.j2kb.jibapi.domain.user.dto.PreferenceDto;
 import com.j2kb.jibapi.domain.user.entity.User;
-import com.j2kb.jibapi.domain.user.enums.LoginType;
-import com.j2kb.jibapi.domain.user.enums.StateType;
-import com.j2kb.jibapi.domain.user.enums.UserType;
+import com.j2kb.jibapi.domain.user.enums.*;
 import com.j2kb.jibapi.domain.user.service.UserJoinService;
+import com.j2kb.jibapi.domain.user.service.UserPreferenceService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -23,6 +25,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -53,6 +56,9 @@ class UserApiTest {
 
     @MockBean
     private UserJoinService userJoinService;
+
+    @Mock
+    private UserPreferenceService userPreferenceService;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -122,27 +128,6 @@ class UserApiTest {
         user.setState(StateType.ACTIVE.getName());
         user.setEmail("dahoon@gmail.com");
 
-//        JoinDto.BasicReq req = JoinDto.BasicReq.builder()
-//                .email("dahoon@gmail.com")
-//                .password("12341234")
-//                .firstname("dahoon")
-//                .lastname("moon")
-//                .logintype(LoginType.BASIC)
-//                .usertype(UserType.STUDENT)
-//                .validationImg("img")
-//                .state(1).build();
-//
-//        JoinDto.BasicRes res = JoinDto.BasicRes.builder()
-//                .email("hayeon@gmail.com")
-//                .firstname("hayeon")
-//                .lastname("kim")
-//                .logintype(LoginType.BASIC)
-//                .usertype(UserType.STUDENT)
-//                .build();
-//
-//        given(userJoinService.create(any())).willReturn(res);
-//        mvc.perform(post("/api/v1/user"))
-//        when(userJoinService).thenReturn(userJoinService.delete(user.getUserNo()));
        final ResultActions resultActions =  mvc.perform(MockMvcRequestBuilders
                .delete("/api/v1/user/{id}", 1111)
                .contentType(MediaType.APPLICATION_JSON)
@@ -150,11 +135,40 @@ class UserApiTest {
 
        resultActions.andDo(print())
                .andExpect(status().isOk());
-//        given(userJoinService.delete(any())).willReturn();
-//
-//        final ResultActions res = mvc.perform(post("/api/v1/user").content());
 
     }
+
+    @Test
+    @DisplayName("사용자 선호사항 입력")
+    public void userPreferenceCreateTest() throws Exception {
+        //given
+        PreferenceDto.saveReq req =
+                PreferenceDto.saveReq.builder()
+                        .distancePreference(DistancePreference.TEN)
+                        .houseType(HouseType.ENTIRE)
+                        .preferences(Arrays.asList(
+                                Preferences.CLEAN,
+                                Preferences.FOOD,
+                                Preferences.PETS
+                        ))
+                        .build();
+        Long userNo = 1L;
+
+        String saveReq = objectMapper.writeValueAsString(req);
+
+        // when
+        final ResultActions actions = mvc.perform(post("/api/v1/user/{userNo}/preference", userNo)
+                .content(saveReq)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("utf-8"));
+
+        // then
+        actions
+                .andDo(print())  // 요청 & 응답 내용 출력
+                .andExpect(status().isOk());
+
+    }
+
 
 
 }
