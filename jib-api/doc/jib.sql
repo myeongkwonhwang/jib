@@ -62,7 +62,7 @@ CREATE TABLE jib.user (
                           authority varchar(15) NOT NULL,
                           is_accepted boolean NOT NULL default false,
                           photo_provided boolean NOT NULL default false,
-                          state varchar(10) NOT NULL,
+                          state varchar(20) NOT NULL,
                           CONSTRAINT pk_user PRIMARY KEY (user_no)
 );
 
