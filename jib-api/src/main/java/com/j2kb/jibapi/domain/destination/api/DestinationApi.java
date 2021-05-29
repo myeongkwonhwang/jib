@@ -39,10 +39,9 @@ public class DestinationApi {
         return SuccessResponse.success(res);
     }
 
-    @GetMapping("/{country}")
+    @GetMapping(value = "/country/school")
     @ApiOperation(value = "국가 별 학교 조회")
-    @ApiImplicitParam(name = "country", value = "목적지 국가", required = true, dataType = "String", dataTypeClass = String.class)
-    public SuccessResponse searchDestinationByCountry(@PathVariable("country")String country) {
+    public SuccessResponse searchDestinationByCountry(@RequestParam("country") String country) {
         List<DestinationDto.DestinationRes> res = destinationService.findDestinationByCountryOrderByNameAsc(country);
         return SuccessResponse.success(res);
     }
