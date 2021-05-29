@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by mkhwang on 2021/05/08
@@ -46,6 +47,7 @@ public class DestinationService extends BasicServiceSupport {
     }
 
     public List<DestinationDto.DestinationRes> findDestinationByCountryOrderByNameAsc(String country) {
-        return destinationRepository.findDestinationByCountryOrderByNameAsc(country);
+        List<Destination> destinationList = destinationRepository.findByCountryOrderByNameAsc(country);
+        return destinationList.stream().map(e -> modelMapper.map(e, DestinationDto.DestinationRes.class)).collect(Collectors.toList());
     }
 }

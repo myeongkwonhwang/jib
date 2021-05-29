@@ -1,6 +1,5 @@
 package com.j2kb.jibapi.domain.destination.dao;
 
-import com.j2kb.jibapi.domain.destination.dto.DestinationDto;
 import com.j2kb.jibapi.domain.destination.entity.Destination;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -15,5 +14,5 @@ import java.util.List;
 @Repository
 public interface DestinationRepository extends JpaRepository<Destination, Long>, CustomDestinationRepository {
 
-    List<DestinationDto.DestinationRes> findDestinationByCountryOrderByNameAsc(String country);
+    List<Destination> findByCountryOrderByNameAsc(String country);
 }

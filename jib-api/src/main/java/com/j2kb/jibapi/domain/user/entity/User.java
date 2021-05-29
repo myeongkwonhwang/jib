@@ -9,8 +9,10 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import com.j2kb.jibapi.global.common.DateAudit;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,7 +36,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User {
+public class User extends DateAudit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -85,6 +87,9 @@ public class User {
 
     @Column(name = "updated_at")
     private Date updatedAt;
+
+    @Column(name = "dst_no")
+    private Long dstNo;
 
     @Column(name = "validation_img")
     private byte[] validationImg;
