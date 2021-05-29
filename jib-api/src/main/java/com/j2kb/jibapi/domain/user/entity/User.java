@@ -86,9 +86,6 @@ public class User {
     @Column(name = "updated_at")
     private Date updatedAt;
 
-    @Column(name = "dst_no")
-    private Long dstNo;
-
     @Column(name = "validation_img")
     private byte[] validationImg;
 
@@ -104,8 +101,6 @@ public class User {
     // 권한: 유저-학생, ROLE_STUDENT
     // 유저-호스트,  ROLE_HOST
     // 관리자 ROLE_ADMIN
-    @Column(name = "authority")
-    private String authority;
 
     @PrePersist
     public void prePersist() {
@@ -122,7 +117,7 @@ public class User {
         return ImmutableMap.<String,Object>builder()
             .put("no"    , getUserNo())
             .put("email"     , getEmail())
-            .put("auth", getAuthority())
+            .put("auth", "ROLE" + getUserType())
             .build();
     }
 

@@ -6,7 +6,7 @@ import lombok.Data;
 
 public class LoginDto {
     @Data
-    public static class BasicReq {
+    public static class Req {
 
         @NotNull
         @Email
@@ -18,7 +18,7 @@ public class LoginDto {
     }
 
     @Data
-    public static class BasicRes {
+    public static class Res {
 
         private String email;
 

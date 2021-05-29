@@ -31,7 +31,7 @@ public class UserDto {
 
 
     @Data
-   @NoArgsConstructor
+    @NoArgsConstructor
     @AllArgsConstructor
     @Builder
     public static class UpdateRes{
