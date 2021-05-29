@@ -33,6 +33,7 @@ public class DestinationApi {
     }
 
     @GetMapping("/country")
+    @CrossOrigin("*")
     @ApiOperation(value = "목적지 국가 조회")
     public SuccessResponse searchCountries() {
         DestinationDto.CountryRes res = destinationService.searchCountries();
