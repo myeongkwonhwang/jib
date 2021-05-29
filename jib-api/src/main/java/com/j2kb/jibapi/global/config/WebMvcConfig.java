@@ -1,9 +1,6 @@
 package com.j2kb.jibapi.global.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.modelmapper.AbstractConverter;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -25,13 +22,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000", "*")//TODO : 도메인 추가
-                .allowedMethods(HttpMethod.GET.name()
-                        , HttpMethod.PATCH.name()
-                        , HttpMethod.PUT.name()
-                        , HttpMethod.POST.name()
-                        , HttpMethod.DELETE.name());
+        registry.addMapping("/**") //모든 요청에 대해서
+                .allowedOrigins("*");
     }
 
     @Override

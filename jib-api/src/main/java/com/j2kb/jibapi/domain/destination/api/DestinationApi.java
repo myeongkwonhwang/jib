@@ -20,6 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/api/v1/destination")
 @Slf4j
+@CrossOrigin("*")
 @RequiredArgsConstructor
 public class DestinationApi {
 
