@@ -26,7 +26,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("*")	//TODO : 도메인 추가
+                .allowedOrigins("http://localhost:3000")//TODO : 도메인 추가
                 .allowedMethods(HttpMethod.GET.name()
                         , HttpMethod.PATCH.name()
                         , HttpMethod.PUT.name()
