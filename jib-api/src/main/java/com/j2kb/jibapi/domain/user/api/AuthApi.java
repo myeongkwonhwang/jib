@@ -15,9 +15,11 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class AuthApi {
 
@@ -26,10 +28,10 @@ public class AuthApi {
     private final UserDetailService userDetailService;
 
     @PostMapping("/login")
-    public ResponseEntity<TokenDto> authorize(@Valid @RequestBody LoginDto.BasicReq basicReq) {
+    public ResponseEntity<TokenDto> authorize(@Valid @RequestBody LoginDto.Req req) {
 
-        String email = basicReq.getEmail();
-        String password = basicReq.getPassword();
+        String email = req.getEmail();
+        String password = req.getPassword();
 
         final User user = userDetailService.findByEmailAndPassword(email, password);
 

@@ -37,7 +37,6 @@ public class TokenProvider implements InitializingBean {
 
     private Key key;
 
-
     public TokenProvider(
         @Value("${jwt.secret}") String secret,
         @Value("${jwt.token-validity-in-seconds}") long tokenValidityInSeconds) {
@@ -52,7 +51,6 @@ public class TokenProvider implements InitializingBean {
         byte[] keyBytes = Decoders.BASE64.decode(secret);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
-
 
     // Authentication 객체에 포함되어 있는 권한 정보를 담은 토큰을 생성한다.
     // jwt.token-validity-in-seconds 값을 이용해 토큰 만료 시간을 지정한다.

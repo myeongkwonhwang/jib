@@ -39,7 +39,7 @@ public class JwtUser extends User {
 
     public static List<? extends GrantedAuthority> getAuthorities(com.j2kb.jibapi.domain.user.entity.User user) {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(user.getAuthority()));
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + user.getUserType()));
         return authorities;
     }
 
