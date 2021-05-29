@@ -44,9 +44,6 @@ public class JoinDto {
         private UserType userType;
 
         private String validationImg;
-
-        private String authority;
-
     }
 
     @Data
@@ -72,7 +69,6 @@ public class JoinDto {
         private String lastName;
         private LoginType loginType;
         private UserType userType;
-        private String authority;
 
         public static BasicRes of(User user) {
             return BasicRes.builder()

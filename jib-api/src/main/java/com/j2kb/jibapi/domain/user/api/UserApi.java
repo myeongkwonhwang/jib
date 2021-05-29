@@ -4,7 +4,6 @@ import com.j2kb.jibapi.domain.user.dto.JoinDto;
 import com.j2kb.jibapi.domain.user.service.UserJoinService;
 import com.j2kb.jibapi.domain.user.service.UserUpdateService;
 import com.j2kb.jibapi.global.common.SuccessResponse;
-import com.j2kb.jibapi.global.error.exception.EntityNotFoundException;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

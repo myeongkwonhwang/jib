@@ -7,6 +7,7 @@ import com.j2kb.jibapi.domain.user.entity.User;
 import com.j2kb.jibapi.domain.user.enums.StateType;
 import com.j2kb.jibapi.global.error.exception.ErrorCode;
 import com.j2kb.jibapi.global.error.exception.InvalidValueException;
+import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,6 +24,7 @@ public class UserJoinService extends BasicServiceSupport {
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @Transactional
     public JoinDto.BasicRes create(JoinDto.BasicReq userReq) {
         controlParams(userReq);
         User user = modelMapper.map(userReq, User.class);
@@ -61,7 +63,7 @@ public class UserJoinService extends BasicServiceSupport {
 
     private void controlAdditionalInfo(JoinDto.StudentReq studentReq, User user) {
         user.setValidationImg(studentReq.getValidationImg());
-        user.setDstNo(studentReq.getDstNo());
+        //user.setDstNo(studentReq.getDstNo());
         user.setPhotoProvided(true);
     }
 
