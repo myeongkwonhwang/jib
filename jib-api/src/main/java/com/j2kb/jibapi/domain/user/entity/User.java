@@ -82,12 +82,6 @@ public class User extends DateAudit {
     @Column(name = "sns_token")
     private String snsToken;
 
-    @Column(name = "created_at")
-    private Date createdAt;
-
-    @Column(name = "updated_at")
-    private Date updatedAt;
-
     @Column(name = "dst_no")
     private Long dstNo;
 

@@ -27,10 +27,10 @@ public abstract class DateAudit implements Serializable {
     @ApiModelProperty("작성일(시스템에서 자동 처리됨)")
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
-    protected Date regDt;
+    protected Date createdAt;
 
     @ApiModelProperty(value = "수정일(시스템에서 자동 처리됨)")
     @LastModifiedDate
     @Column(name = "updated_at", nullable = false)
-    protected Date modDt;
+    protected Date updatedAt;
 }
