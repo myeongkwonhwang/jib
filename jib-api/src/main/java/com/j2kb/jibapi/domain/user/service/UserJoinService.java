@@ -30,8 +30,6 @@ public class UserJoinService extends BasicServiceSupport {
         controlParams(userReq);
         User user = modelMapper.map(userReq, User.class);
 
-        //TODO : UserType에 따라 권한 부여 로직 필요
-        user.setAuthority(Authority.ROLE_STUDENT.getName());
         controlValidationImg(userReq, user);
         return modelMapper.map(userRepository.save(user), JoinDto.BasicRes.class);
     }
