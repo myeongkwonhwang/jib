@@ -4,11 +4,14 @@ import com.j2kb.jibapi.domain.interfaces.BasicServiceSupport;
 import com.j2kb.jibapi.domain.user.dao.UserPreferenceRepository;
 import com.j2kb.jibapi.domain.user.dto.PreferenceDto;
 import com.j2kb.jibapi.domain.user.entity.UserPreference;
+import com.j2kb.jibapi.global.util.enumMapper.EnumMapper;
+import com.j2kb.jibapi.global.util.enumMapper.EnumMapperValue;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -22,6 +25,8 @@ import java.util.stream.Collectors;
 public class UserPreferenceService extends BasicServiceSupport {
 
     private final UserPreferenceRepository userPreferenceRepository;
+
+    private final EnumMapper enumMapper;
 
     public void create(Long userNo, PreferenceDto.saveReq saveReq) {
         UserPreference userPreference = modelMapper.map(saveReq, UserPreference.class);
@@ -38,5 +43,9 @@ public class UserPreferenceService extends BasicServiceSupport {
                     .collect(Collectors.joining(", "));
             userPreference.setPreference(preferences);
         }
+    }
+
+    public Map<String, List<EnumMapperValue>> getReferences() {
+        return enumMapper.getAll();
     }
 }

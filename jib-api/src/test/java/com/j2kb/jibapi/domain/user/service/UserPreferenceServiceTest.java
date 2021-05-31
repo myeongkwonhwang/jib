@@ -7,6 +7,8 @@ import com.j2kb.jibapi.domain.user.entity.UserPreference;
 import com.j2kb.jibapi.domain.user.enums.DistancePreference;
 import com.j2kb.jibapi.domain.user.enums.HouseType;
 import com.j2kb.jibapi.domain.user.enums.Preferences;
+import com.j2kb.jibapi.global.util.enumMapper.EnumMapperValue;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,6 +30,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 @SpringBootTest
 @Transactional
+@Slf4j
 class UserPreferenceServiceTest {
 
     @Autowired
@@ -41,11 +46,11 @@ class UserPreferenceServiceTest {
     EntityManager entityManager;
 
 
-    @BeforeEach
+    /*@BeforeEach
     public void beforeEach() {
-        this.entityManager.createNativeQuery("ALTER TABLE user_preference ALTER COLUMN `prf_no` RESTART WITH 1")
+        this.entityManager.createNativeQuery("ALTER TABLE jib.user_preference ALTER COLUMN prf_no RESTART WITH 1")
                 .executeUpdate();
-    }
+    }*/
 
     @Test
     void UserPreferenceCreateTest(){
@@ -72,6 +77,17 @@ class UserPreferenceServiceTest {
                 () -> assertEquals(1L, userPreference.get().getPrfNo()),
                 () -> assertEquals(userNo, userPreference.get().getUserNo())
         );
+    }
+
+    @Test
+    void getEnumMapperReferences() {
+        Map<String, List<EnumMapperValue>> references = userPreferenceService.getReferences();
+
+        List<EnumMapperValue> distancePreference = references.get("DistancePreference");
+        for (EnumMapperValue value : distancePreference) {
+            log.info(value.getName());
+            assertEquals(value.getName(), DistancePreference.findByCode(value.getName()).getName());
+        }
     }
 
 }

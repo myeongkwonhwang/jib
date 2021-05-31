@@ -6,6 +6,7 @@ import com.j2kb.jibapi.domain.user.service.UserJoinService;
 import com.j2kb.jibapi.domain.user.service.UserPreferenceService;
 import com.j2kb.jibapi.domain.user.service.UserUpdateService;
 import com.j2kb.jibapi.global.common.SuccessResponse;
+import com.j2kb.jibapi.global.util.enumMapper.EnumMapperValue;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/user")
@@ -63,8 +66,15 @@ public class UserApi {
         return SuccessResponse.success(res);
     }
 
-    @PostMapping("/{userNo}/preference")
+    @GetMapping("/preferences")
     @ApiOperation(value = "user 선호사항")
+    public SuccessResponse getReferences(){
+        Map<String, List<EnumMapperValue>> preferences = userPreferenceService.getReferences();
+        return SuccessResponse.success(preferences);
+    }
+
+    @PostMapping("/{userNo}/preference")
+    @ApiOperation(value = "user 선호사항 저장")
     @ApiImplicitParam(name = "userNo", value = "유저 고유번호", required = true, dataType = "Long", dataTypeClass = Long.class)
     public SuccessResponse addPreference(@PathVariable("userNo") Long userNo, @Valid @RequestBody PreferenceDto.saveReq saveReq) {
         userPreferenceService.create(userNo, saveReq);
