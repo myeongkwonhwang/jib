@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.stream.Collectors;
 import javassist.Loader.Simple;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -29,15 +30,13 @@ import org.springframework.stereotype.Component;
 
 // jwt.secret, jwt.token-validity-in-seconds 값을 주입받는다.
 @Component
+@Slf4j
 public class TokenProvider implements InitializingBean {
-
-    private final Logger logger = LoggerFactory.getLogger(TokenProvider.class);
 
     private static final String AUTHORITIES_KEY = "type";
 
     private final String secret;
     private final long tokenValidityInMilliseconds;
-
     private Key key;
 
     public TokenProvider(
