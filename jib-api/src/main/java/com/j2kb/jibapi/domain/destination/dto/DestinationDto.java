@@ -110,6 +110,9 @@ public class DestinationDto {
     @NoArgsConstructor
     public static class DestinationRes {
 
+        @ApiModelProperty("목적지 고유번호")
+        private Long dstNo;
+
         @ApiModelProperty("목적지 이름")
         private String name;
 
