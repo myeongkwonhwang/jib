@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,13 +31,13 @@ class UserJoinServiceTest {
     UserJoinService userJoinService;
     @Autowired
     UserUpdateService userUpdateService;
-    @Autowired
+    @PersistenceContext
     EntityManager entityManager;
 
 
     @BeforeEach
     public void beforeEach() {
-        this.entityManager.createNativeQuery("ALTER TABLE user ALTER COLUMN `user_no` RESTART WITH 1")
+        this.entityManager.createNativeQuery("ALTER TABLE jib.user ALTER COLUMN user_no RESTART WITH 1")
                 .executeUpdate();
     }
 

@@ -5,7 +5,10 @@ import com.j2kb.jibapi.domain.jwt.TokenProvider;
 import com.j2kb.jibapi.domain.user.dto.LoginDto;
 import com.j2kb.jibapi.domain.user.dto.TokenDto;
 import com.j2kb.jibapi.domain.user.entity.User;
+import com.j2kb.jibapi.global.common.SuccessResponse;
 import com.j2kb.jibapi.global.config.security.UserDetailService;
+
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -28,22 +31,17 @@ public class AuthApi {
     private final UserDetailService userDetailService;
 
     @PostMapping("/login")
-    public ResponseEntity<TokenDto> authorize(@Valid @RequestBody LoginDto.Req req) {
+    public SuccessResponse authorize(HttpServletResponse response, @Valid @RequestBody LoginDto.Req req) {
 
-        String email = req.getEmail();
-        String password = req.getPassword();
-
-        final User user = userDetailService.findByEmailAndPassword(email, password);
+        final User user = userDetailService.findByEmailAndPassword(req);
 
         authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(email, password));
+            new UsernamePasswordAuthenticationToken(req.getEmail(), req.getPassword()));
 
         String jwt = tokenProvider.createToken(user);
+        response.setHeader(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
 
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
-
-        return new ResponseEntity<>(new TokenDto(jwt), httpHeaders, HttpStatus.OK);
+        return SuccessResponse.success(new TokenDto(jwt));
 
     }
 }

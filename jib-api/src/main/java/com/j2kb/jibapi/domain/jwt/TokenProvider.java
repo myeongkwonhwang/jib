@@ -13,6 +13,10 @@ import java.security.Key;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.stream.Collectors;
+import javassist.Loader.Simple;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -24,15 +28,13 @@ import org.springframework.stereotype.Component;
 
 // jwt.secret, jwt.token-validity-in-seconds 값을 주입받는다.
 @Component
+@Slf4j
 public class TokenProvider implements InitializingBean {
-
-    private final Logger logger = LoggerFactory.getLogger(TokenProvider.class);
 
     private static final String AUTHORITIES_KEY = "type";
 
     private final String secret;
     private final long tokenValidityInMilliseconds;
-
     private Key key;
 
     public TokenProvider(
@@ -75,7 +77,7 @@ public class TokenProvider implements InitializingBean {
             .getBody();
 
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_" + claims.get("type").toString()));
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + claims.get(AUTHORITIES_KEY).toString()));
 
         User user = User.valueOf(claims);
         
@@ -91,13 +93,13 @@ public class TokenProvider implements InitializingBean {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
-            logger.info("잘못된 JWT 서명입니다.");
+            log.info("malformed JWT signature.");
         } catch (ExpiredJwtException e) {
-            logger.info("만료된 JWT 토큰입니다.");
+            log.info("expired JWT");
         } catch (UnsupportedJwtException e) {
-            logger.info("지원되지 않는 JWT 토큰입니다.");
+            log.info("not supported JWT");
         } catch (IllegalArgumentException e) {
-            logger.info("JWT 토큰이 잘못되었습니다.");
+            log.info("illegal JWT.");
         }
         return false;
     }

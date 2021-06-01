@@ -1,9 +1,10 @@
 package com.j2kb.jibapi.global.config.security;
 
-import com.j2kb.jibapi.domain.jwt.JwtAccessDeniedHandler;
-import com.j2kb.jibapi.domain.jwt.JwtAuthenticationEntryPoint;
+import antlr.Token;
+import com.j2kb.jibapi.domain.jwt.JwtAuthenticationFilter;
+import com.j2kb.jibapi.domain.jwt.TokenProvider;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +18,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * Created by mkhwang on 2021/04/28
  * Email : orange2652@gmail.com
@@ -28,23 +31,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserDetailService userDetailService;
-    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+    private final TokenProvider tokenProvider;
 
     private final String[] authWhiteList;
 
-    @Autowired
     public SecurityConfig(
         BCryptPasswordEncoder bCryptPasswordEncoder,
         UserDetailService userDetailService,
-        @Value("${web.security.white.list:}") String[] authWhiteList,
-        JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
-        JwtAccessDeniedHandler jwtAccessDeniedHandler) {
+        TokenProvider tokenProvider,
+        @Value("${web.security.white.list:}") String[] authWhiteList) {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.userDetailService = userDetailService;
         this.authWhiteList = authWhiteList;
-        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
-        this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
+        this.tokenProvider = tokenProvider;
     }
 
     @Override
@@ -73,23 +72,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
             .csrf().disable()
-
-            .exceptionHandling()
-            .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-            .accessDeniedHandler(jwtAccessDeniedHandler)
-
-            .and()
             .sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
             .and()
             .formLogin().disable()
             // HttpServletRequest를 사용하는 요청들에 대한 접근 제한을 설정
-
             .authorizeRequests()
             .antMatchers("/admin").access("ROLE_ADMIN") //url 추후작성
             .antMatchers("/api/v1/auth/**").permitAll()// 나머지 요청 인증 없이 접근 허용
-            .anyRequest().authenticated();
+            .antMatchers("/api/v1/destination/**").permitAll()
+            .anyRequest().authenticated()
+
+            .and()
+            .exceptionHandling()
+            .authenticationEntryPoint((req, rsp, e) -> rsp.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage()))
+            .accessDeniedHandler((req, rsp, e) -> rsp.sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage()))
+
+                .and()
+            .addFilter(new JwtAuthenticationFilter(tokenProvider));
+
             //제한 해야할 pattern을 위로
     }
 
