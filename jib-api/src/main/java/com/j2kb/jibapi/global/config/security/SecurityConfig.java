@@ -1,9 +1,10 @@
 package com.j2kb.jibapi.global.config.security;
 
-import com.j2kb.jibapi.domain.jwt.JwtAccessDeniedHandler;
-import com.j2kb.jibapi.domain.jwt.JwtAuthenticationEntryPoint;
+import antlr.Token;
+import com.j2kb.jibapi.domain.jwt.JwtAuthenticationFilter;
+import com.j2kb.jibapi.domain.jwt.TokenProvider;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -34,18 +35,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final String[] authWhiteList;
 
-    @Autowired
     public SecurityConfig(
         BCryptPasswordEncoder bCryptPasswordEncoder,
         UserDetailService userDetailService,
-        @Value("${web.security.white.list:}") String[] authWhiteList,
-        JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
-        JwtAccessDeniedHandler jwtAccessDeniedHandler) {
+        TokenProvider tokenProvider,
+        @Value("${web.security.white.list:}") String[] authWhiteList) {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.userDetailService = userDetailService;
         this.authWhiteList = authWhiteList;
-        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
-        this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
+        this.tokenProvider = tokenProvider;
     }
 
     @Override

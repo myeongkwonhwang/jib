@@ -27,7 +27,7 @@ public class UserDetailService implements UserDetailsService {
     }
 
     public User findByEmail(String email) {
-        System.out.println("findByEmail: email = " + email);
+        log.info("findByEmail: email = " + email);
         return userRepository.findByEmail(email)
             .orElseThrow(()-> new EntityNotFoundException("일치하는 회원정보가 없습니다."));
     }
