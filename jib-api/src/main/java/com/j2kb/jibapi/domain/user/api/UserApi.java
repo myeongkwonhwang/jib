@@ -67,7 +67,7 @@ public class UserApi {
     }
 
     @GetMapping("/preferences")
-    @ApiOperation(value = "user 선호사항")
+    @ApiOperation(value = "user 가입 정보(userType / LoginType / userPreferences")
     public SuccessResponse getReferences(){
         Map<String, List<EnumMapperValue>> preferences = userPreferenceService.getReferences();
         return SuccessResponse.success(preferences);
