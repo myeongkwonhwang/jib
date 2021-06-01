@@ -11,19 +11,14 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.stream.Collectors;
-import javassist.Loader.Simple;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
@@ -69,7 +64,6 @@ public class TokenProvider implements InitializingBean {
             .setExpiration(validity)
             .compact();
     }
-
 
     // 토큰에 담겨 있는 권한 정보를 이용해 Authentication 객체를 리턴한다.
     public Authentication getAuthentication(String token) {
