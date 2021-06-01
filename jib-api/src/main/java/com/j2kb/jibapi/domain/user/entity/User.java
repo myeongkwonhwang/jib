@@ -116,7 +116,7 @@ public class User extends DateAudit {
         return ImmutableMap.<String,Object>builder()
             .put("no"    , getUserNo())
             .put("email"     , getEmail())
-            .put("auth", "ROLE" + getUserType())
+            .put("type", getUserType())
             .build();
     }
 

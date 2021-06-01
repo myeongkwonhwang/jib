@@ -106,7 +106,6 @@ public class DestinationDto {
     @Getter
     @Setter
     @ToString
-    @Builder
     @NoArgsConstructor
     public static class DestinationRes {
 

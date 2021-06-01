@@ -10,10 +10,13 @@ import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.stream.Collectors;
+import javassist.Loader.Simple;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -30,7 +33,7 @@ public class TokenProvider implements InitializingBean {
 
     private final Logger logger = LoggerFactory.getLogger(TokenProvider.class);
 
-    private static final String AUTHORITIES_KEY = "auth";
+    private static final String AUTHORITIES_KEY = "type";
 
     private final String secret;
     private final long tokenValidityInMilliseconds;
@@ -45,7 +48,7 @@ public class TokenProvider implements InitializingBean {
     }
 
     //빈이 생성되고 의존성 주입까지 끝낸 후
-    //주입받은 secrete 값을 base64 decode 하여 key 변수에 할당한다.
+    //주입받은 secret 값을 base64 decode 하여 key 변수에 할당한다.
     @Override
     public void afterPropertiesSet() {
         byte[] keyBytes = Decoders.BASE64.decode(secret);
@@ -77,14 +80,12 @@ public class TokenProvider implements InitializingBean {
             .parseClaimsJws(token)
             .getBody();
 
-        Collection<? extends GrantedAuthority> authorities =
-            Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + claims.get("type").toString()));
 
         User user = User.valueOf(claims);
         
-        user.setPassword("");
+        user.setPassword(user.getPassword());
         JwtUser principal = new JwtUser(user, authorities);
 
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);
