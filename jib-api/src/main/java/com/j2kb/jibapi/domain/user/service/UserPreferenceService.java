@@ -32,11 +32,11 @@ public class UserPreferenceService extends BasicServiceSupport {
         UserPreference userPreference = modelMapper.map(saveReq, UserPreference.class);
         userPreference.setUserNo(userNo);
 
-        convertPreFerencesArrayToString(saveReq, userPreference);
+        convertPreferencesArrayToString(saveReq, userPreference);
         userPreferenceRepository.save(userPreference);
     }
 
-    private void convertPreFerencesArrayToString(PreferenceDto.saveReq saveReq, UserPreference userPreference) {
+    private void convertPreferencesArrayToString(PreferenceDto.saveReq saveReq, UserPreference userPreference) {
         if(saveReq.getPreferences() != null){
             String preferences = saveReq.getPreferences().stream()
                     .map(e -> e.getName())
