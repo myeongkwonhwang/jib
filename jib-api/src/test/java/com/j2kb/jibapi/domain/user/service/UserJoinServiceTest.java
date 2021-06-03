@@ -3,8 +3,6 @@ package com.j2kb.jibapi.domain.user.service;
 import com.j2kb.jibapi.domain.user.dto.JoinDto;
 import com.j2kb.jibapi.domain.user.enums.LoginType;
 import com.j2kb.jibapi.domain.user.enums.UserType;
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

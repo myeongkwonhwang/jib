@@ -1,6 +1,7 @@
 package com.j2kb.jibapi.domain.jwt;
 
 import com.j2kb.jibapi.domain.user.entity.User;
+import com.j2kb.jibapi.global.config.security.UserPrincipal;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -85,7 +86,7 @@ public class TokenProvider implements InitializingBean {
         User user = User.valueOf(claims);
         
         user.setPassword(user.getPassword());
-        JwtUser principal = new JwtUser(user, authorities);
+        UserPrincipal principal = UserPrincipal.create(user);
 
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }
