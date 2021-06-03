@@ -8,6 +8,7 @@ import com.j2kb.jibapi.domain.user.entity.User;
 import com.j2kb.jibapi.global.common.SuccessResponse;
 import com.j2kb.jibapi.global.config.security.UserDetailService;
 
+import com.sun.net.httpserver.Authenticator.Success;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,4 +46,10 @@ public class AuthApi {
         return SuccessResponse.success(new TokenDto(jwt));
 
     }
+
+    @GetMapping("/mailConfirm")
+    public SuccessResponse mailConfirm(String email, String authKey) {
+        
+    }
+
 }

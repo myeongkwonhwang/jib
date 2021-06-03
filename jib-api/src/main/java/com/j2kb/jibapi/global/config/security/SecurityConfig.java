@@ -19,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 /**
  * Created by mkhwang on 2021/04/28
@@ -87,10 +88,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
             .exceptionHandling()
             .authenticationEntryPoint((req, rsp, e) -> rsp.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage()))
-            .accessDeniedHandler((req, rsp, e) -> rsp.sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage()))
+            .accessDeniedHandler((req, rsp, e) -> rsp.sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage()));
 
-                .and()
-            .addFilter(new JwtAuthenticationFilter(tokenProvider));
+            //    .and()
+            //.addFilterBefore(new JwtAuthenticationFilter(tokenProvider), OncePerRequestFilter.class);
 
             //제한 해야할 pattern을 위로
     }
