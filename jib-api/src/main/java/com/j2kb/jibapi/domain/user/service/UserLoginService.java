@@ -32,15 +32,7 @@ public class UserLoginService {
 
     public String authorize(LoginDto.Req req) {
         User user = findByEmailAndPassword(req);
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        req.getEmail()
-                        , req.getPassword()
-                )
-        );
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = tokenProvider.createToken(user);
-        return token;
+        return this.authenticate(UserPrincipal.create(user), req.getPassword());
     }
 
     private User findByEmailAndPassword(LoginDto.Req req) {
@@ -56,4 +48,16 @@ public class UserLoginService {
         return userRepository.findByEmail(email)
                 .orElseThrow(()-> new EntityNotFoundException("일치하는 회원정보가 없습니다."));
     }
+
+    public String authenticate(UserPrincipal userPrincipal, String password) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        userPrincipal
+                        , password
+                )
+        );
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return tokenProvider.genarateToken();
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.j2kb.jibapi.global.config.security;
 
+import com.google.common.collect.ImmutableMap;
 import com.j2kb.jibapi.domain.user.entity.User;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -7,10 +8,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by mkhwang on 2021/06/02
@@ -22,6 +20,7 @@ public class UserPrincipal implements UserDetails, Serializable {
 
     private static final long serialVersionUID = -8257169965859984373L;
 
+    private Long userNo;
     private String email;
     private String password;
     private String fistName;
@@ -29,7 +28,8 @@ public class UserPrincipal implements UserDetails, Serializable {
     private String userType;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserPrincipal(String email, String password, String fistName, String lastName, String userType, Collection<? extends GrantedAuthority> authorities) {
+    public UserPrincipal(Long userNo, String email, String password, String fistName, String lastName, String userType, Collection<? extends GrantedAuthority> authorities) {
+        this.userNo = userNo;
         this.email = email;
         this.password = password;
         this.fistName = fistName;
@@ -40,7 +40,8 @@ public class UserPrincipal implements UserDetails, Serializable {
 
     public static UserPrincipal create(User user) {
         return new UserPrincipal(
-                user.getEmail()
+                user.getUserNo()
+                , user.getEmail()
                 , user.getPassword()
                 , user.getFirstName()
                 , user.getLastName()
@@ -56,31 +57,52 @@ public class UserPrincipal implements UserDetails, Serializable {
 
     @Override
     public String getPassword() {
-        return null;
+        return this.password;
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return this.email;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserPrincipal that = (UserPrincipal) o;
+        return Objects.equals(email, that.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(email);
+    }
+
+    public Map<String,Object> toClaims(){
+        return ImmutableMap.<String,Object>builder()
+                .put("no", this.userNo)
+                .put("email", this.email)
+                .put("type", this.userType)
+                .build();
     }
 }
