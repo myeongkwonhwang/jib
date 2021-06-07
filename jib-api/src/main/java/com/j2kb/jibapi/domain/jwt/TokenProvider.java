@@ -1,6 +1,8 @@
 package com.j2kb.jibapi.domain.jwt;
 
 import com.j2kb.jibapi.domain.user.entity.User;
+import com.j2kb.jibapi.global.config.security.AuthenticationFacade;
+import com.j2kb.jibapi.global.config.security.UserPrincipal;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -13,12 +15,7 @@ import java.security.Key;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.stream.Collectors;
-import javassist.Loader.Simple;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -36,12 +33,14 @@ public class TokenProvider implements InitializingBean {
     private final String secret;
     private final long tokenValidityInMilliseconds;
     private Key key;
+    private final AuthenticationFacade authenticationFacade;
 
     public TokenProvider(
         @Value("${jwt.secret}") String secret,
-        @Value("${jwt.token-validity-in-seconds}") long tokenValidityInSeconds) {
+        @Value("${jwt.token-validity-in-seconds}") long tokenValidityInSeconds, AuthenticationFacade authenticationFacade) {
         this.secret = secret;
         this.tokenValidityInMilliseconds = tokenValidityInSeconds * 1000;
+        this.authenticationFacade = authenticationFacade;
     }
 
     //빈이 생성되고 의존성 주입까지 끝낸 후
@@ -82,7 +81,7 @@ public class TokenProvider implements InitializingBean {
         User user = User.valueOf(claims);
         
         user.setPassword(user.getPassword());
-        JwtUser principal = new JwtUser(user, authorities);
+        UserPrincipal principal = UserPrincipal.create(user);
 
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }
@@ -102,5 +101,19 @@ public class TokenProvider implements InitializingBean {
             log.info("illegal JWT.");
         }
         return false;
+    }
+
+    public String genarateToken() {
+        UserPrincipal userPrincipal = authenticationFacade.getUserPrincipal();
+        long now = (new Date()).getTime();
+        Date validity = new Date(now + this.tokenValidityInMilliseconds);
+
+        return Jwts.builder()
+                .setSubject(userPrincipal.getUsername())
+                .setClaims(userPrincipal.toClaims())
+                .signWith(key, SignatureAlgorithm.HS512)
+                .setIssuedAt(new Date())
+                .setExpiration(validity)
+                .compact();
     }
 }

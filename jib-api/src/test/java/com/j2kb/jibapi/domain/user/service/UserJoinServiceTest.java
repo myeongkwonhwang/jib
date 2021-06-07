@@ -3,9 +3,8 @@ package com.j2kb.jibapi.domain.user.service;
 import com.j2kb.jibapi.domain.user.dto.JoinDto;
 import com.j2kb.jibapi.domain.user.enums.LoginType;
 import com.j2kb.jibapi.domain.user.enums.UserType;
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +34,6 @@ class UserJoinServiceTest {
     EntityManager entityManager;
 
 
-    @BeforeEach
     public void beforeEach() {
         this.entityManager.createNativeQuery("ALTER TABLE jib.user ALTER COLUMN user_no RESTART WITH 1")
                 .executeUpdate();

@@ -40,6 +40,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         } else {
             log.debug("유효한 JWT 토큰이 없습니다, uri: {}", requestURI);
         }
+
+        filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
 
     private String resolveToken(HttpServletRequest request) {

@@ -9,6 +9,7 @@ import com.j2kb.jibapi.domain.user.entity.User;
 import com.j2kb.jibapi.domain.user.service.PasswordResetService;
 import com.j2kb.jibapi.domain.user.service.MailSendService;
 import com.j2kb.jibapi.domain.user.service.UserUpdateService;
+import com.j2kb.jibapi.domain.user.service.UserLoginService;
 import com.j2kb.jibapi.global.common.SuccessResponse;
 import com.j2kb.jibapi.global.config.security.UserDetailService;
 
@@ -36,16 +37,11 @@ public class AuthApi {
     private final MailSendService mailSendService;
     private final PasswordResetService passwordResetService;
     private final UserUpdateService userUpdateService;
+    private final UserLoginService userLoginService;
 
     @PostMapping("/login")
     public SuccessResponse authorize(HttpServletResponse response, @Valid @RequestBody LoginDto.Req req) {
-
-        final User user = userDetailService.findByEmailAndPassword(req);
-
-        authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(req.getEmail(), req.getPassword()));
-
-        String jwt = tokenProvider.createToken(user);
+        String jwt = userLoginService.authorize(req);
         response.setHeader(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
 
         return SuccessResponse.success(new TokenDto(jwt));

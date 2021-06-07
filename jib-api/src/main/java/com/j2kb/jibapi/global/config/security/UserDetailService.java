@@ -23,7 +23,7 @@ public class UserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(final String email) throws UsernameNotFoundException {
-        return new JwtUser(findByEmail(email));
+        return UserPrincipal.create(findByEmail(email));
     }
 
     public User findByEmail(String email) {

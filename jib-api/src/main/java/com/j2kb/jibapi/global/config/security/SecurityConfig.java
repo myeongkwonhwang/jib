@@ -17,6 +17,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -73,6 +74,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
             .csrf().disable()
+            .cors()
+            .and()
             .sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
@@ -81,17 +84,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             // HttpServletRequest를 사용하는 요청들에 대한 접근 제한을 설정
             .authorizeRequests()
             .antMatchers("/admin").access("ROLE_ADMIN") //url 추후작성
+            .antMatchers("/api/v1/user/auth/**").access("ROLE_STUDENT")
             .antMatchers("/api/v1/auth/**").permitAll()// 나머지 요청 인증 없이 접근 허용
-            .antMatchers("/api/v1/destination/**").permitAll()
+            .antMatchers("/**").permitAll()
             .anyRequest().authenticated()
 
             .and()
             .exceptionHandling()
             .authenticationEntryPoint((req, rsp, e) -> rsp.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage()))
-            .accessDeniedHandler((req, rsp, e) -> rsp.sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage()));
+            .accessDeniedHandler((req, rsp, e) -> rsp.sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage()))
 
-            //    .and()
-            //.addFilterBefore(new JwtAuthenticationFilter(tokenProvider), OncePerRequestFilter.class);
+            .and()
+            .addFilterBefore(new JwtAuthenticationFilter(tokenProvider), BasicAuthenticationFilter.class);
 
             //제한 해야할 pattern을 위로
     }
