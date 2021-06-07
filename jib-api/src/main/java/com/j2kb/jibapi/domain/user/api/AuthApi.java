@@ -31,12 +31,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthApi {
 
-    private final TokenProvider tokenProvider;
-    private final AuthenticationManager authenticationManager;
-    private final UserDetailService userDetailService;
-    private final MailSendService mailSendService;
-    private final PasswordResetService passwordResetService;
-    private final UserUpdateService userUpdateService;
     private final UserLoginService userLoginService;
 
     @PostMapping("/login")
@@ -46,29 +40,5 @@ public class AuthApi {
 
         return SuccessResponse.success(new TokenDto(jwt));
 
-    }
-
-    @GetMapping("/mail/send")
-    public SuccessResponse passwordReset(String email) {
-        mailSendService.sendAuthMail(email);
-        return SuccessResponse.success();
-    }
-
-    @GetMapping("/mail/confirm")
-    public SuccessResponse mailConfirm(String email, String authKey) {
-        PasswordResetToken token = passwordResetService.read(email);
-        if (!authKey.equals(token.getToken())) {
-            throw new InvalidValueException("token is not valid", ErrorCode.INVALID_INPUT_VALUE);
-        }
-        passwordResetService.remove(token);
-        return SuccessResponse.success(); // => passwordReset
-
-
-    }
-
-    @PostMapping("/password/reset")
-    public SuccessResponse passwordReset(String email, String password) {
-        userUpdateService.updatePassword(email, password);
-        return SuccessResponse.success();
     }
 }

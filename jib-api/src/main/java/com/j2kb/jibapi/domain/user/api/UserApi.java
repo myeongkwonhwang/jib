@@ -80,4 +80,12 @@ public class UserApi {
         userPreferenceService.create(userNo, saveReq);
         return  SuccessResponse.success();
     }
+
+    @PostMapping("/password")
+    @ApiOperation(value = "비밀번호 변경")
+    public SuccessResponse passwordReset(String email, String password) {
+        userUpdateService.updatePassword(email, password);
+        return SuccessResponse.success();
+    }
+
 }
