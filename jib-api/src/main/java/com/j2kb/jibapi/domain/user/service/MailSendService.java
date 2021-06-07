@@ -1,6 +1,8 @@
 package com.j2kb.jibapi.domain.user.service;
 
 import com.j2kb.jibapi.domain.user.util.MailUtils;
+import com.j2kb.jibapi.domain.user.dao.PasswordResetTokenRedisRepository;
+import com.j2kb.jibapi.domain.user.entity.PasswordResetToken;
 import java.io.UnsupportedEncodingException;
 import java.util.Random;
 import javax.mail.MessagingException;
@@ -10,8 +12,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class MailService {
+public class MailSendService {
     private final JavaMailSender mailSender;
+    private final PasswordResetTokenRedisRepository passwordResetTokenRedisRepository;
 
     private String getAuthCode(int size) {
         Random random = new Random();
@@ -43,6 +46,7 @@ public class MailService {
             sendMail.setFrom("jibj2kb@gmail.com", "JIB");
             sendMail.setTo(email);
             sendMail.send();
+            passwordResetTokenRedisRepository.save(new PasswordResetToken(email, authKey));
         } catch (MessagingException | UnsupportedEncodingException e) {
             e.printStackTrace();
         }
