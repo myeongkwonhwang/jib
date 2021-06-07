@@ -32,7 +32,7 @@ import javax.servlet.http.HttpServletRequest;
 public class TokenProvider implements InitializingBean {
 
     private static final String AUTHORITIES_KEY = "type";
-    private static final String AUTHORIZATION_HEADER = "Authorization";
+    public static final String AUTHORIZATION_HEADER = "Authorization";
 
     private final String secret;
     private final long tokenValidityInMilliseconds;
