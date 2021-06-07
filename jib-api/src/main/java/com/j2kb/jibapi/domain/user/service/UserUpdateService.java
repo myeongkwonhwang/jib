@@ -27,4 +27,12 @@ public class UserUpdateService extends BasicServiceSupport {
 
         return modelMapper.map(userRepository.save(user), JoinDto.BasicRes.class);
     }
+
+    public void updatePassword(String email, String password) {
+        User user = userRepository.findByEmail(email).orElseThrow(
+            () -> new EntityNotFoundException("해당 유저를 조회할 수 없습니다.")
+        );
+        user.setPassword(bCryptPasswordEncoder.encode(password));
+        userRepository.save(user);
+    }
 }
