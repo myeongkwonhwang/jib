@@ -20,7 +20,6 @@ import java.io.IOException;
 @Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    public static final String AUTHORIZATION_HEADER = "Authorization";
     private final TokenProvider tokenProvider;
 
     public JwtAuthenticationFilter(TokenProvider tokenProvider) {
@@ -30,7 +29,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
 
-        String jwt = resolveToken(httpServletRequest);
+        String jwt = tokenProvider.resolveToken(httpServletRequest);
         String requestURI = httpServletRequest.getRequestURI();
 
         if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
@@ -42,13 +41,5 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         filterChain.doFilter(httpServletRequest, httpServletResponse);
-    }
-
-    private String resolveToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7);
-        }
-        return null;
     }
 }

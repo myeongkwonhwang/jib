@@ -22,6 +22,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
+
+import javax.servlet.http.HttpServletRequest;
 
 // jwt.secret, jwt.token-validity-in-seconds 값을 주입받는다.
 @Component
@@ -29,6 +32,7 @@ import org.springframework.stereotype.Component;
 public class TokenProvider implements InitializingBean {
 
     private static final String AUTHORITIES_KEY = "type";
+    private static final String AUTHORIZATION_HEADER = "Authorization";
 
     private final String secret;
     private final long tokenValidityInMilliseconds;
@@ -115,5 +119,13 @@ public class TokenProvider implements InitializingBean {
                 .setIssuedAt(new Date())
                 .setExpiration(validity)
                 .compact();
+    }
+
+    public String resolveToken(HttpServletRequest request) {
+        String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7);
+        }
+        return bearerToken;
     }
 }
