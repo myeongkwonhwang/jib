@@ -1,7 +1,6 @@
 package com.j2kb.jibapi.domain.user.api;
 
-import com.j2kb.jibapi.domain.jwt.JwtAuthenticationFilter;
-import com.j2kb.jibapi.domain.jwt.TokenProvider;
+import com.j2kb.jibapi.global.config.security.jwt.TokenProvider;
 import com.j2kb.jibapi.domain.user.dto.LoginDto;
 import com.j2kb.jibapi.domain.user.dto.TokenDto;
 import com.j2kb.jibapi.domain.user.service.UserLoginService;

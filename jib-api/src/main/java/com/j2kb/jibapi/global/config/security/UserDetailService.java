@@ -1,6 +1,5 @@
 package com.j2kb.jibapi.global.config.security;
 
-import com.j2kb.jibapi.domain.jwt.JwtUser;
 import com.j2kb.jibapi.domain.user.dao.UserRepository;
 import com.j2kb.jibapi.domain.user.dto.LoginDto;
 import com.j2kb.jibapi.domain.user.entity.User;

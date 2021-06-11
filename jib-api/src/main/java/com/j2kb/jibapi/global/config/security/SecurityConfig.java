@@ -1,9 +1,7 @@
 package com.j2kb.jibapi.global.config.security;
 
-import antlr.Token;
-import com.j2kb.jibapi.domain.jwt.JwtAuthenticationFilter;
-import com.j2kb.jibapi.domain.jwt.TokenProvider;
-import lombok.RequiredArgsConstructor;
+import com.j2kb.jibapi.global.config.security.jwt.JwtAuthenticationFilter;
+import com.j2kb.jibapi.global.config.security.jwt.TokenProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -20,7 +18,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import javax.servlet.http.HttpServletResponse;
-import org.springframework.web.filter.OncePerRequestFilter;
 
 /**
  * Created by mkhwang on 2021/04/28
