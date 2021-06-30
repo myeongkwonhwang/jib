@@ -33,7 +33,7 @@ public class UserApi {
     @PostMapping
     @ApiOperation(value = "기본회원가입")
     public SuccessResponse join(
-        @Valid @RequestBody JoinDto.BasicReq basicReq,
+        @Valid JoinDto.BasicReq basicReq,
         MultipartFile profileImg) {
         JoinDto.BasicRes basicRes = userJoinService.create(basicReq, profileImg);
         return SuccessResponse.success(basicRes);
