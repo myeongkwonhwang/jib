@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/v1/user")
@@ -31,8 +32,10 @@ public class UserApi {
 
     @PostMapping
     @ApiOperation(value = "기본회원가입")
-    public SuccessResponse join(@Valid @RequestBody JoinDto.BasicReq basicReq) {
-        JoinDto.BasicRes basicRes = userJoinService.create(basicReq);
+    public SuccessResponse join(
+        @Valid JoinDto.BasicReq basicReq,
+        MultipartFile profileImg) {
+        JoinDto.BasicRes basicRes = userJoinService.create(basicReq, profileImg);
         return SuccessResponse.success(basicRes);
     }
 
@@ -40,13 +43,6 @@ public class UserApi {
     @ApiOperation(value = "학생 회원가입 시 추가정보 추가")
     public SuccessResponse addAdditionalInfo(@Valid @RequestBody JoinDto.StudentReq studentReq) {
         JoinDto.BasicRes basicRes = userJoinService.addAdditionalInfo(studentReq);
-        return SuccessResponse.success(basicRes);
-    }
-
-    @PostMapping("/login")
-    @ApiOperation(value = "로그인")
-    public SuccessResponse login(@Valid @RequestBody JoinDto.BasicReq basicReq) {
-        JoinDto.BasicRes basicRes = userJoinService.create(basicReq);
         return SuccessResponse.success(basicRes);
     }
 

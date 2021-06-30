@@ -10,9 +10,9 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 
 @RequiredArgsConstructor
 @RestController
@@ -29,7 +29,9 @@ public class PasswordResetTokenApi {
         return SuccessResponse.success();
     }
 
-    @DeleteMapping
+
+
+    @PostMapping
     @ApiOperation(value = "비밀번호 토큰 validate 및 토큰 삭제")
     public SuccessResponse confirmPasswordResetToken(String email, String authKey) {
         PasswordResetToken token = passwordResetService.read(email);
