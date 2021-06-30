@@ -1,4 +1,4 @@
-package com.j2kb.jibapi.domain.jwt;
+package com.j2kb.jibapi.global.config.security.jwt;
 
 import com.j2kb.jibapi.domain.user.entity.User;
 import com.j2kb.jibapi.global.config.security.AuthenticationFacade;

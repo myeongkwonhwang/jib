@@ -47,6 +47,7 @@ class UserJoinServiceTest {
                 .password("1111")
                 .firstName("hayeon")
                 .lastName("kim")
+                .birthYear("2020")
                 .loginType(LoginType.BASIC)
                 .userType(UserType.STUDENT).build();
 

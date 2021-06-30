@@ -30,6 +30,7 @@ public class JoinDto {
         @NotNull
         private String lastName;
 
+        @NotNull
         private String birthYear;
 
         private String langCd;
@@ -66,6 +67,7 @@ public class JoinDto {
         private String lastName;
         private LoginType loginType;
         private UserType userType;
+        private String token;
 
         public static BasicRes of(User user) {
             return BasicRes.builder()

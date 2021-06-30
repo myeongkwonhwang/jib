@@ -1,7 +1,7 @@
 package com.j2kb.jibapi.domain.user.util;
 
 
-import com.j2kb.jibapi.domain.jwt.JwtUser;
+import com.j2kb.jibapi.global.config.security.jwt.JwtUser;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;

@@ -1,4 +1,4 @@
-package com.j2kb.jibapi.domain.jwt;
+package com.j2kb.jibapi.global.config.security.jwt;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;

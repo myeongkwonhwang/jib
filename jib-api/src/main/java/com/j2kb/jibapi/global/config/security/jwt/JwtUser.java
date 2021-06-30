@@ -1,4 +1,4 @@
-package com.j2kb.jibapi.domain.jwt;
+package com.j2kb.jibapi.global.config.security.jwt;
 
 import java.util.ArrayList;
 import java.util.Arrays;
