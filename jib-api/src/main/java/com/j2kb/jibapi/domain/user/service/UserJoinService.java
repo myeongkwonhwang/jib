@@ -6,6 +6,7 @@ import com.j2kb.jibapi.domain.user.dto.JoinDto;
 import com.j2kb.jibapi.domain.user.entity.User;
 import com.j2kb.jibapi.domain.user.enums.Authority;
 import com.j2kb.jibapi.domain.user.enums.StateType;
+import com.j2kb.jibapi.global.enums.S3Directory;
 import com.j2kb.jibapi.global.error.exception.ErrorCode;
 import com.j2kb.jibapi.global.error.exception.InvalidValueException;
 import com.j2kb.jibapi.global.util.S3Uploader;
@@ -30,15 +31,13 @@ public class UserJoinService extends BasicServiceSupport {
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    private final String dirName = "user";
-
     @Transactional
     public JoinDto.BasicRes create(JoinDto.BasicReq userReq, MultipartFile profileImg) {
         controlParams(userReq);
 
         User user = modelMapper.map(userReq, User.class);
         if (!profileImg.isEmpty()) {
-            user.setProfileImg(s3Uploader.upload(profileImg, dirName));
+            user.setProfileImg(s3Uploader.upload(profileImg, S3Directory.PROFILE.getDirName()));
         }
 
         //controlValidationImg(userReq, user);
