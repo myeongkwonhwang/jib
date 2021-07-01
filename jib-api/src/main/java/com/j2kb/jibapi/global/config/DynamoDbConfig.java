@@ -3,6 +3,7 @@ package com.j2kb.jibapi.global.config;
 import com.amazonaws.auth.AWSCredentialsProvider;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.auth.InstanceProfileCredentialsProvider;
 import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
@@ -25,15 +26,6 @@ public class DynamoDbConfig {
 
     //FIXME 왜 안될까
 
-    @Value("${spring.dynamodb.endpoint}")
-    private String amazonDynamoDbEndPoint;
-
-    @Value("${amazon.aws.accesskey}")
-    private String amazonDynamoDbAccessKey;
-
-    @Value("${amazon.aws.secretkey}")
-    private String amazonDynamoDbSecretKey;
-
     public static class LocalDateTimeConverter implements DynamoDBTypeConverter<Date, LocalDateTime>{
         @Override
         public Date convert(LocalDateTime src){
@@ -48,9 +40,18 @@ public class DynamoDbConfig {
 
     @Bean
     public DynamoDBMapper dynamoDbMapper(){
-        return new DynamoDBMapper(buildAmazonDynamoDB());
+        return new DynamoDBMapper(amazonDynamoDB());
     }
 
+    @Bean
+    public AmazonDynamoDB amazonDynamoDB() {
+        AmazonDynamoDB dynamodb = AmazonDynamoDBClientBuilder.standard()
+            .withCredentials(new InstanceProfileCredentialsProvider(false))
+            .withRegion("ap-northeast-2")
+            .build();
+        return dynamodb;
+    }
+    /*
     @Bean
     public AmazonDynamoDB buildAmazonDynamoDB(){
         return AmazonDynamoDBClientBuilder.standard()
@@ -63,9 +64,13 @@ public class DynamoDbConfig {
         return new AwsClientBuilder.EndpointConfiguration(amazonDynamoDbEndPoint, "ap-northeast-2");
     }
 
+
     @Bean
     public AWSCredentialsProvider awsCredentialsProvider(){
         return new AWSStaticCredentialsProvider(new BasicAWSCredentials(amazonDynamoDbAccessKey, amazonDynamoDbSecretKey));
     }
+
+
+     */
 
 }

@@ -31,6 +31,8 @@ public class UserJoinService extends BasicServiceSupport {
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    private final UserLoginService userLoginService;
+
     @Transactional
     public JoinDto.BasicRes create(JoinDto.BasicReq userReq, MultipartFile profileImg) {
         controlParams(userReq);
@@ -41,9 +43,8 @@ public class UserJoinService extends BasicServiceSupport {
             user.setProfileImg(s3Uploader.upload(profileImg, S3Directory.PROFILE.getDirName()));
         }
 
-        //controlValidationImg(userReq, user);
         JoinDto.BasicRes res = modelMapper.map(userRepository.save(user), JoinDto.BasicRes.class);
-        res.setToken(u.authenticate(UserPrincipal.create(user), password));
+        res.setToken(userLoginService.authenticate(UserPrincipal.create(user), userReq.getPassword()));
         return res;
     }
 
