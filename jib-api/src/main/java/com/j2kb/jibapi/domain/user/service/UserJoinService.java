@@ -35,6 +35,7 @@ public class UserJoinService extends BasicServiceSupport {
 
     @Transactional
     public JoinDto.BasicRes create(JoinDto.BasicReq userReq, MultipartFile profileImg) {
+        String password = userReq.getPassword();
         controlParams(userReq);
 
         User user = modelMapper.map(userReq, User.class);
@@ -44,7 +45,7 @@ public class UserJoinService extends BasicServiceSupport {
         }
 
         JoinDto.BasicRes res = modelMapper.map(userRepository.save(user), JoinDto.BasicRes.class);
-        res.setToken(userLoginService.authenticate(UserPrincipal.create(user), userReq.getPassword()));
+        res.setToken(userLoginService.authenticate(UserPrincipal.create(user), password));
         return res;
     }
 
