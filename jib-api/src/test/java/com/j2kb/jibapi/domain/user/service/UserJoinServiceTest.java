@@ -59,7 +59,7 @@ class UserJoinServiceTest {
                 .userType(UserType.STUDENT)
                 .build();
 
-        JoinDto.BasicRes basicRes = userJoinService.create(req, null);
+        JoinDto.BasicRes basicRes = userJoinService.create(req);
 
         log.info(basicRes.toString());
 
@@ -89,7 +89,7 @@ class UserJoinServiceTest {
                 .userType(UserType.STUDENT)
                 .build();
 
-        JoinDto.BasicRes basicRes = userJoinService.create(req, null);
+        JoinDto.BasicRes basicRes = userJoinService.create(req);
 
         log.info(basicRes.toString());
 
@@ -119,7 +119,7 @@ class UserJoinServiceTest {
                 .userType(UserType.STUDENT)
                 .build();
 
-        JoinDto.BasicRes basicRes = userJoinService.create(req1, null);
+        JoinDto.BasicRes basicRes = userJoinService.create(req1);
 
         //when
         //exist
@@ -156,7 +156,7 @@ class UserJoinServiceTest {
                 .userType(UserType.STUDENT)
                 .build();
 
-        JoinDto.BasicRes basicRes = userJoinService.create(req1, null);
+        JoinDto.BasicRes basicRes = userJoinService.create(req1);
 
         //when
         JoinDto.BasicRes basicRes2 = userUpdateService.update(req2, 1L);

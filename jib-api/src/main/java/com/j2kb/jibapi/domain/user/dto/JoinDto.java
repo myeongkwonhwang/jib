@@ -42,6 +42,8 @@ public class JoinDto {
 
         @NotNull
         private UserType userType;
+
+        private MultipartFile profileImg;
     }
 
     @Data
