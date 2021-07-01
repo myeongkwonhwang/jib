@@ -13,6 +13,7 @@ import org.socialsignin.spring.data.dynamodb.repository.config.EnableDynamoDBRep
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -21,7 +22,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 @Configuration
-@EnableDynamoDBRepositories
+@EnableDynamoDBRepositories(basePackages = "com.j2kb.jibapi.domain.host.dao")
 public class DynamoDbConfig {
 
     //FIXME 왜 안될까
@@ -37,13 +38,13 @@ public class DynamoDbConfig {
         }
     }
 
-
+    @Primary
     @Bean
     public DynamoDBMapper dynamoDbMapper(){
         return new DynamoDBMapper(amazonDynamoDB());
     }
 
-    @Bean
+    @Bean(name="amazonDynamoDB")
     public AmazonDynamoDB amazonDynamoDB() {
         AmazonDynamoDB dynamodb = AmazonDynamoDBClientBuilder.standard()
             .withCredentials(new InstanceProfileCredentialsProvider(false))
