@@ -70,6 +70,5 @@ public class UserJoinService extends BasicServiceSupport {
         //user.setDstNo(studentReq.getDstNo());
         user.setPhotoProvided(true);
     }
-
-
+    
 }
