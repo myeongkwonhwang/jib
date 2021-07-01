@@ -37,15 +37,11 @@ public class JoinDto {
 
         private String phoneNum;
 
-        private String profileImg;
-
         @NotNull
         private LoginType loginType;
 
         @NotNull
         private UserType userType;
-
-        private String validationImg;
     }
 
     @Data
