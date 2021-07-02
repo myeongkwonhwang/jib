@@ -1,5 +1,10 @@
 package com.j2kb.jibapi.domain.user.service;
 
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
+import com.amazonaws.services.dynamodbv2.document.DynamoDB;
+import com.amazonaws.services.dynamodbv2.document.Item;
+import com.amazonaws.services.dynamodbv2.document.Table;
 import com.j2kb.jibapi.domain.user.dto.JoinDto;
 import com.j2kb.jibapi.domain.user.enums.LoginType;
 import com.j2kb.jibapi.domain.user.enums.UserType;
@@ -35,6 +40,20 @@ class HostJoinServiceTest {
     BigInteger getUserSequence() {
         return (BigInteger) entityManager.createNativeQuery("select currval('jib.user_user_no_seq')").getSingleResult();
     }
+
+    AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard().build();
+    DynamoDB dynamoDB = new DynamoDB(client);
+
+   @Test
+   void hostTableTest(){
+       Table table = dynamoDB.getTable("jib");
+
+       Item item = table.getItem("jib", "abcd");
+       System.out.println(item);
+   }
+
+
+
 
     @Test
     void hostCreateTest() {
