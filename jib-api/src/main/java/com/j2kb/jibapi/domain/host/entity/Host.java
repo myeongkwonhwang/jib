@@ -5,6 +5,7 @@ import com.j2kb.jibapi.global.config.DynamoDbConfig;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Getter
@@ -23,6 +24,12 @@ public class Host {
     private String content;
 
     @DynamoDBAttribute
+    private List<String> keyword;
+
+    private houseInfo houseInfo;
+
+
+    @DynamoDBAttribute
     @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.BOOL)
     private boolean deleted;
 
@@ -34,3 +41,4 @@ public class Host {
     @DynamoDBTypeConverted(converter = DynamoDbConfig.LocalDateTimeConverter.class)
     private LocalDateTime deletedAt;
 }
+
