@@ -32,10 +32,8 @@ public class UserApi {
 
     @PostMapping
     @ApiOperation(value = "기본회원가입")
-    public SuccessResponse join(
-        @Valid JoinDto.BasicReq basicReq,
-        MultipartFile profileImg) {
-        JoinDto.BasicRes basicRes = userJoinService.create(basicReq, profileImg);
+    public SuccessResponse join(@Valid JoinDto.BasicReq basicReq) {
+        JoinDto.BasicRes basicRes = userJoinService.create(basicReq);
         return SuccessResponse.success(basicRes);
     }
 

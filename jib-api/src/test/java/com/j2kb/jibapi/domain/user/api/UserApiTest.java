@@ -101,7 +101,7 @@ class UserApiTest {
                 .userType(UserType.STUDENT)
                 .build();
 
-        given(userJoinService.create(any(), any())).willReturn(res);
+        given(userJoinService.create(any())).willReturn(res);
 
         String json = objectMapper.writeValueAsString(req);
         System.out.println(json);

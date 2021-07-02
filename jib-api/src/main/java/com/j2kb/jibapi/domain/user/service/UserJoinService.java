@@ -34,14 +34,14 @@ public class UserJoinService extends BasicServiceSupport {
     private final UserLoginService userLoginService;
 
     @Transactional
-    public JoinDto.BasicRes create(JoinDto.BasicReq userReq, MultipartFile profileImg) {
+    public JoinDto.BasicRes create(JoinDto.BasicReq userReq) {
         String password = userReq.getPassword();
         controlParams(userReq);
 
         User user = modelMapper.map(userReq, User.class);
 
-        if (!profileImg.isEmpty()) {
-            user.setProfileImg(s3Uploader.upload(profileImg, S3Directory.PROFILE.getDirName()));
+        if (null != userReq.getProfileImg()) {
+            user.setProfileImg(s3Uploader.upload(userReq.getProfileImg(), S3Directory.PROFILE.getDirName()));
         }
 
         JoinDto.BasicRes res = modelMapper.map(userRepository.save(user), JoinDto.BasicRes.class);
