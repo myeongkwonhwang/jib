@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.mapping.Join;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -32,7 +33,7 @@ public class UserApi {
 
     @PostMapping
     @ApiOperation(value = "기본회원가입")
-    public SuccessResponse join(@Valid JoinDto.BasicReq basicReq) {
+    public SuccessResponse join(@Valid JoinDto.BasicReq basicReq){
         JoinDto.BasicRes basicRes = userJoinService.create(basicReq);
         return SuccessResponse.success(basicRes);
     }
