@@ -4,6 +4,7 @@ import com.j2kb.jibapi.domain.interfaces.BasicServiceSupport;
 import com.j2kb.jibapi.domain.user.dao.UserRepository;
 import com.j2kb.jibapi.domain.user.dto.JoinDto;
 import com.j2kb.jibapi.domain.user.entity.User;
+import com.j2kb.jibapi.domain.user.service.UserLoginService;
 import com.j2kb.jibapi.global.config.security.UserPrincipal;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

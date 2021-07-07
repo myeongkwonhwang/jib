@@ -1,7 +1,7 @@
 package com.j2kb.jibapi.domain.user.api;
 
-import com.j2kb.jibapi.domain.user.dto.JoinDto;
 import com.j2kb.jibapi.domain.user.service.HostJoinService;
+import com.j2kb.jibapi.domain.user.dto.JoinDto;
 import com.j2kb.jibapi.global.common.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
