@@ -4,7 +4,9 @@ import com.amazonaws.auth.AWSCredentialsProvider;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.auth.InstanceProfileCredentialsProvider;
+import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.client.builder.AwsClientBuilder;
+import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
@@ -47,8 +49,10 @@ public class DynamoDbConfig {
     @Bean(name="amazonDynamoDB")
     public AmazonDynamoDB amazonDynamoDB() {
         AmazonDynamoDB dynamodb = AmazonDynamoDBClientBuilder.standard()
-            .withCredentials(new InstanceProfileCredentialsProvider(false))
-            .withRegion("ap-northeast-2")
+//   //             .withEndpointConfiguration(
+//     //                   new AwsClientBuilder.EndpointConfiguration("https://dynamodb.ap-northeast-2.amazonaws.com", "ap-norheast-2"))
+       //     .withCredentials(new InstanceProfileCredentialsProvider(false))
+                .withRegion(Regions.AP_NORTHEAST_2)
             .build();
         return dynamodb;
     }

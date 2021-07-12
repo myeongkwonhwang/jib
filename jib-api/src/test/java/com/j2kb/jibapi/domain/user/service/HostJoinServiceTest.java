@@ -12,20 +12,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
+import javax.transaction.Transactional;
 import java.math.BigInteger;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Created by mkhwang on 2021/06/06
- * Email : orange2652@gmail.com
- * Github : https://github.com/myeongkwonhwang
- */
 @SpringBootTest
 @Transactional
 @Slf4j
@@ -41,16 +35,26 @@ class HostJoinServiceTest {
         return (BigInteger) entityManager.createNativeQuery("select currval('jib.user_user_no_seq')").getSingleResult();
     }
 
-    AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard().build();
-    DynamoDB dynamoDB = new DynamoDB(client);
+    @Autowired
+    AmazonDynamoDB amazonDynamoDB;
+//
+//   @Test
+//   void hostTableTest(){
+////       Table table = dynamoDB.getTable("home");
+//
+//       Item item = table.getItem("id", "1");
+//
+//
+//       System.out.println(item.toJSONPretty());
+//   }
 
-   @Test
-   void hostTableTest(){
-       Table table = dynamoDB.getTable("jib");
-
-       Item item = table.getItem("jib", "abcd");
-       System.out.println(item);
-   }
+    @Test
+    void hostTableInsertTest() {
+        DynamoDB dynamoDB = new DynamoDB(amazonDynamoDB);
+        Table table = dynamoDB.getTable("home");
+        Item item = new Item().withPrimaryKey("id", "12").withString("title","title");
+        table.putItem(item);
+    }
 
 
 

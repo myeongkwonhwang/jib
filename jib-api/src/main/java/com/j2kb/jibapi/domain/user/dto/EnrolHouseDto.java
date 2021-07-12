@@ -4,8 +4,6 @@ import com.j2kb.jibapi.domain.user.enums.CommonAreaType;
 import com.j2kb.jibapi.domain.user.enums.FurnitureType;
 import com.j2kb.jibapi.domain.user.enums.ServiceType;
 import lombok.Data;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.util.List;
 
 public class EnrolHouseDto {
@@ -25,7 +23,6 @@ public class EnrolHouseDto {
         private Cost cost;
         private HomeValidation homeValidation;
     }
-
     @Data
     public static class Location {
         private String country;
@@ -34,6 +31,21 @@ public class EnrolHouseDto {
         private String homeAddress;
         private String detailAddress;
         private String zipCode;
+        private String lat;
+        private String lng;
+
+        public com.j2kb.jibapi.domain.host.entity.Location toEntity(){
+            return com.j2kb.jibapi.domain.host.entity.Location.builder()
+            .country(country)
+            .province(province)
+            .city(city)
+            .detailAddress(detailAddress)
+            .homeAddress(homeAddress)
+            .zipCode(zipCode)
+            .lat(lat)
+            .lng(lng)
+            .build();
+        }
     }
 
     @Data
@@ -43,7 +55,7 @@ public class EnrolHouseDto {
         //private List<MultipartFile> homePictures;
         private String homeTitle;
         private List<String> nearbyFacilities;
-        private List<String> homePlicy;
+        private List<String> homePolicy;
         private List<String> extraInfo;
     }
 
