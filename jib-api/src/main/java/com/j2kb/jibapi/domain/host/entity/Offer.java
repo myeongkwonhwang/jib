@@ -15,10 +15,11 @@ import java.util.List;
 @NoArgsConstructor
 @DynamoDBDocument
 public class Offer {
-    @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.S)
+
+    @DynamoDBTypeConvertedEnum
     private List<FurnitureType> furniture;
-    @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.S)
+    @DynamoDBTypeConvertedEnum
     private List<ServiceType> service;
-    @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.S)
+    @DynamoDBTypeConvertedEnum
     private List<CommonAreaType> commonArea;
 }
