@@ -1,6 +1,8 @@
 package com.j2kb.jibapi.global.config.security.jwt;
 
+import com.j2kb.jibapi.domain.user.dto.TokenDto;
 import com.j2kb.jibapi.domain.user.entity.User;
+import com.j2kb.jibapi.domain.user.enums.TokenType;
 import com.j2kb.jibapi.global.config.security.AuthenticationFacade;
 import com.j2kb.jibapi.global.config.security.UserPrincipal;
 import io.jsonwebtoken.Claims;
@@ -35,15 +37,13 @@ public class TokenProvider implements InitializingBean {
     public static final String AUTHORIZATION_HEADER = "Authorization";
 
     private final String secret;
-    private final long tokenValidityInMilliseconds;
     private Key key;
     private final AuthenticationFacade authenticationFacade;
 
     public TokenProvider(
         @Value("${jwt.secret}") String secret,
-        @Value("${jwt.token-validity-in-seconds}") long tokenValidityInSeconds, AuthenticationFacade authenticationFacade) {
+        AuthenticationFacade authenticationFacade) {
         this.secret = secret;
-        this.tokenValidityInMilliseconds = tokenValidityInSeconds * 1000;
         this.authenticationFacade = authenticationFacade;
     }
 
@@ -53,21 +53,6 @@ public class TokenProvider implements InitializingBean {
     public void afterPropertiesSet() {
         byte[] keyBytes = Decoders.BASE64.decode(secret);
         this.key = Keys.hmacShaKeyFor(keyBytes);
-    }
-
-    // Authentication 객체에 포함되어 있는 권한 정보를 담은 토큰을 생성한다.
-    // jwt.token-validity-in-seconds 값을 이용해 토큰 만료 시간을 지정한다.
-    public String createToken(User user) {
-
-        long now = (new Date()).getTime();
-        Date validity = new Date(now + this.tokenValidityInMilliseconds);
-
-        return Jwts.builder()
-            .setSubject(user.getEmail())
-            .setClaims(user.toClaims())
-            .signWith(key, SignatureAlgorithm.HS512)
-            .setExpiration(validity)
-            .compact();
     }
 
     // 토큰에 담겨 있는 권한 정보를 이용해 Authentication 객체를 리턴한다.
@@ -107,18 +92,24 @@ public class TokenProvider implements InitializingBean {
         return false;
     }
 
-    public String genarateToken() {
+    // Authentication 객체에 포함되어 있는 권한 정보를 담은 토큰을 생성한다.
+    // jwt.token-validity-in-seconds 값을 이용해 토큰 만료 시간을 지정한다.
+    public TokenDto genarateToken() {
         UserPrincipal userPrincipal = authenticationFacade.getUserPrincipal();
-        long now = (new Date()).getTime();
-        Date validity = new Date(now + this.tokenValidityInMilliseconds);
+        return TokenDto.builder()
+            .accessToken(generateToken(userPrincipal, TokenType.ACCESS_TOKEN))
+            .refreshToken(generateToken(userPrincipal, TokenType.REFRESH_TOKEN)).build();
+    }
 
+    public String generateToken(UserPrincipal userPrincipal, TokenType token) {
+        long now = (new Date()).getTime();
         return Jwts.builder()
-                .setSubject(userPrincipal.getUsername())
-                .setClaims(userPrincipal.toClaims())
-                .signWith(key, SignatureAlgorithm.HS512)
-                .setIssuedAt(new Date())
-                .setExpiration(validity)
-                .compact();
+            .setSubject(userPrincipal.getUsername())
+            .setClaims(userPrincipal.toClaims())
+            .signWith(key, SignatureAlgorithm.HS512)
+            .setIssuedAt(new Date())
+            .setExpiration(new Date(now + token.getValidTime()))
+            .compact();
     }
 
     public String resolveToken(HttpServletRequest request) {

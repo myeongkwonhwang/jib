@@ -1,5 +1,8 @@
 package com.j2kb.jibapi.domain.user.service;
 
+import com.j2kb.jibapi.domain.user.dao.RefreshTokenRedisRepository;
+import com.j2kb.jibapi.domain.user.dto.TokenDto;
+import com.j2kb.jibapi.domain.user.entity.RefreshToken;
 import com.j2kb.jibapi.global.config.security.jwt.TokenProvider;
 import com.j2kb.jibapi.domain.user.dao.UserRepository;
 import com.j2kb.jibapi.domain.user.dto.LoginDto;
@@ -29,6 +32,7 @@ public class UserLoginService {
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
     private final AuthenticationManager authenticationManager;
+    private final RefreshTokenRedisRepository refreshTokenRedisRepository;
 
     public String authorize(LoginDto.Req req) {
         User user = findByEmailAndPassword(req);
@@ -44,7 +48,6 @@ public class UserLoginService {
     }
 
     private User findByEmail(String email) {
-        log.info("findByEmail: email = " + email);
         return userRepository.findByEmail(email)
                 .orElseThrow(()-> new EntityNotFoundException("일치하는 회원정보가 없습니다."));
     }
@@ -57,7 +60,15 @@ public class UserLoginService {
                 )
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return tokenProvider.genarateToken();
+
+        TokenDto tokenDto = tokenProvider.genarateToken();
+
+        // save refresh token to redis
+        refreshTokenRedisRepository.save(RefreshToken.builder()
+                .email(userPrincipal.getEmail())
+                .token(tokenDto.getRefreshToken()).build());
+
+        return tokenDto.getAccessToken();
     }
 
 }

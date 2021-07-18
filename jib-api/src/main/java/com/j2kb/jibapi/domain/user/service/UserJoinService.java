@@ -53,14 +53,6 @@ public class UserJoinService extends BasicServiceSupport {
         userReq.setPassword(bCryptPasswordEncoder.encode(userReq.getPassword()));
     }
 
-    /*
-    private void controlValidationImg(JoinDto.BasicReq userReq, User user) {
-        if(user.getValidationImg() != null) {
-            user.setValidationImg(userReq.getValidationImg().getBytes(StandardCharsets.UTF_8));
-        }
-    }
-     */
-
     private User getUserByUserNo(Long userNo) {
         Optional<User> user = userRepository.findByUserNo(userNo);
         return user.orElseThrow(() -> new InvalidValueException(ErrorCode.ENTITY_NOT_FOUND));
