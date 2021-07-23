@@ -3,12 +3,15 @@ package com.j2kb.jibapi.domain.user.service;
 import com.j2kb.jibapi.domain.user.dao.RefreshTokenRedisRepository;
 import com.j2kb.jibapi.domain.user.dto.TokenDto;
 import com.j2kb.jibapi.domain.user.entity.RefreshToken;
+import com.j2kb.jibapi.domain.user.enums.TokenType;
+import com.j2kb.jibapi.global.common.SuccessResponse;
 import com.j2kb.jibapi.global.config.security.jwt.TokenProvider;
 import com.j2kb.jibapi.domain.user.dao.UserRepository;
 import com.j2kb.jibapi.domain.user.dto.LoginDto;
 import com.j2kb.jibapi.domain.user.entity.User;
 import com.j2kb.jibapi.global.config.security.UserPrincipal;
 import com.j2kb.jibapi.global.error.exception.EntityNotFoundException;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -34,7 +37,7 @@ public class UserLoginService {
     private final AuthenticationManager authenticationManager;
     private final RefreshTokenRedisRepository refreshTokenRedisRepository;
 
-    public String authorize(LoginDto.Req req) {
+    public TokenDto authorize(LoginDto.Req req) {
         User user = findByEmailAndPassword(req);
         return this.authenticate(UserPrincipal.create(user), req.getPassword());
     }
@@ -52,7 +55,7 @@ public class UserLoginService {
                 .orElseThrow(()-> new EntityNotFoundException("일치하는 회원정보가 없습니다."));
     }
 
-    public String authenticate(UserPrincipal userPrincipal, String password) {
+    public TokenDto authenticate(UserPrincipal userPrincipal, String password) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         userPrincipal
@@ -68,7 +71,14 @@ public class UserLoginService {
                 .email(userPrincipal.getEmail())
                 .token(tokenDto.getRefreshToken()).build());
 
-        return tokenDto.getAccessToken();
+        return tokenDto;
     }
 
+    public String refreshToken(String refreshToken) {
+        // 로그아웃 상태 or refresh token이 만료된 상태에서 refresh 요청
+        refreshTokenRedisRepository.findById(refreshToken)
+            .orElseThrow(() -> new EntityNotFoundException("토큰 정보가 만료되었습니다. 다시 로그인해주세요."));
+
+        return tokenProvider.generateToken(tokenProvider.getUserPrincipal(refreshToken), TokenType.ACCESS_TOKEN);
+    }
 }
