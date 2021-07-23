@@ -57,22 +57,29 @@ public class TokenProvider implements InitializingBean {
 
     // 토큰에 담겨 있는 권한 정보를 이용해 Authentication 객체를 리턴한다.
     public Authentication getAuthentication(String token) {
-        Claims claims = Jwts
-            .parserBuilder()
-            .setSigningKey(key)
-            .build()
-            .parseClaimsJws(token)
-            .getBody();
+        Claims claims = getClaims(token);
 
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("ROLE_" + claims.get(AUTHORITIES_KEY).toString()));
 
         User user = User.valueOf(claims);
-        
-        user.setPassword(user.getPassword());
+
         UserPrincipal principal = UserPrincipal.create(user);
 
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);
+    }
+
+    public UserPrincipal getUserPrincipal(String token) {
+        return UserPrincipal.create(User.valueOf(getClaims(token)));
+    }
+
+    public Claims getClaims(String token) {
+        return Jwts
+            .parserBuilder()
+            .setSigningKey(key)
+            .build()
+            .parseClaimsJws(token)
+            .getBody();
     }
 
     // 토큰을 검증하는 역할을 수행한다.
