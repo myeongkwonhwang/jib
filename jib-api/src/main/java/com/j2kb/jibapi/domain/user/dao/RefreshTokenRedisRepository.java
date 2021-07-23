@@ -5,6 +5,6 @@ import com.j2kb.jibapi.domain.user.entity.RefreshToken;
 import java.util.Optional;
 import org.springframework.data.repository.CrudRepository;
 
-public interface RefreshTokenRedisRepository extends CrudRepository<RefreshToken, Long> {
+public interface RefreshTokenRedisRepository extends CrudRepository<RefreshToken, String> {
     Optional<PasswordResetToken> findByEmail(String email);
 }
