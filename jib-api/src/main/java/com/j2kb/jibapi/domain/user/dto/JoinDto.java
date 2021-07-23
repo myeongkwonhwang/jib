@@ -69,7 +69,7 @@ public class JoinDto {
         private String lastName;
         private LoginType loginType;
         private UserType userType;
-        private String token;
+        private TokenDto token;
 
         public static BasicRes of(User user) {
             return BasicRes.builder()
@@ -130,6 +130,6 @@ public class JoinDto {
         private String lastName;
         private LoginType loginType;
         private UserType userType;
-        private String token;
+        private TokenDto token;
     }
 }
