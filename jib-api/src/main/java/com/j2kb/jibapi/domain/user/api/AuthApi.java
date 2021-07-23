@@ -23,10 +23,13 @@ public class AuthApi {
 
     @PostMapping("/login")
     public SuccessResponse authorize(HttpServletResponse response, @Valid @RequestBody LoginDto.Req req) {
-        String jwt = userLoginService.authorize(req);
-        response.setHeader(TokenProvider.AUTHORIZATION_HEADER, "Bearer " + jwt);
+        TokenDto tokenDto = userLoginService.authorize(req);
+        response.setHeader(TokenProvider.AUTHORIZATION_HEADER, "Bearer " + tokenDto.getAccessToken());
+        return SuccessResponse.success(tokenDto);
+    }
 
-        return SuccessResponse.success(new TokenDto(jwt));
-
+    @PostMapping("/token")
+    public SuccessResponse token(String refreshToken) {
+        return SuccessResponse.success(userLoginService.refreshToken(refreshToken));
     }
 }
