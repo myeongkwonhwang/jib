@@ -14,12 +14,10 @@ public class RefreshToken {
 
     @Id
     @Indexed
-    private String email;
     private String token;
 
     @Builder
-    public RefreshToken(String email, String token) {
-        this.email = email;
+    public RefreshToken(String token) {
         this.token = token;
     }
 }

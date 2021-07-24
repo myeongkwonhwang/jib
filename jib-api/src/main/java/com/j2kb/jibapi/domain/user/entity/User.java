@@ -106,19 +106,14 @@ public class User extends DateAudit {
 
     }
 
-    public Map<String,Object> toClaims(){
-        return ImmutableMap.<String,Object>builder()
-            .put("no"    , getUserNo())
-            .put("email"     , getEmail())
-            .put("type", getUserType())
-            .build();
-    }
-
     public static User valueOf(Claims claims) {
 
         return User.builder()
             .userNo(Long.valueOf(claims.get("no").toString()))
             .email((String) claims.get("email"))
+            .lastName((String) claims.get("lastName"))
+            .firstName((String) claims.get("firstName"))
+            .userType((String) claims.get("userType"))
             .build();
     }
 }

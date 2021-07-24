@@ -39,6 +39,8 @@ public class UserPrincipal implements UserDetails, Serializable {
     }
 
     public static UserPrincipal create(User user) {
+        System.out.println("UserPrincipal.create");
+        System.out.println(user);
         return new UserPrincipal(
                 user.getUserNo()
                 , user.getEmail()
@@ -99,10 +101,16 @@ public class UserPrincipal implements UserDetails, Serializable {
     }
 
     public Map<String,Object> toClaims(){
+        System.out.println("UserPrincipal.toClaims");
+        System.out.println(this);
         return ImmutableMap.<String,Object>builder()
                 .put("no", this.userNo)
                 .put("email", this.email)
                 .put("type", this.userType)
+                .put("firstName", this.fistName)
+                .put("lastName", this.lastName)
+                .put("userType", this.userType)
+                .put("authorities", this.authorities)
                 .build();
     }
 }

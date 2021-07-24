@@ -68,7 +68,6 @@ public class UserLoginService {
 
         // save refresh token to redis
         refreshTokenRedisRepository.save(RefreshToken.builder()
-                .email(userPrincipal.getEmail())
                 .token(tokenDto.getRefreshToken()).build());
 
         return tokenDto;
@@ -78,7 +77,9 @@ public class UserLoginService {
         // 로그아웃 상태 or refresh token이 만료된 상태에서 refresh 요청
         refreshTokenRedisRepository.findById(refreshToken)
             .orElseThrow(() -> new EntityNotFoundException("토큰 정보가 만료되었습니다. 다시 로그인해주세요."));
-
+        UserPrincipal userPrincipal = tokenProvider.getUserPrincipal(refreshToken);
+        System.out.println(userPrincipal);
+        // 이 상황에서는 다시 refresh token을 다시 generate하게 됨.
         return tokenProvider.generateToken(tokenProvider.getUserPrincipal(refreshToken), TokenType.ACCESS_TOKEN);
     }
 }
