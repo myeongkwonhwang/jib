@@ -10,7 +10,11 @@ import com.j2kb.jibapi.domain.user.dao.UserRepository;
 import com.j2kb.jibapi.domain.user.dto.LoginDto;
 import com.j2kb.jibapi.domain.user.entity.User;
 import com.j2kb.jibapi.global.config.security.UserPrincipal;
+import com.j2kb.jibapi.global.error.exception.BusinessException;
 import com.j2kb.jibapi.global.error.exception.EntityNotFoundException;
+import com.j2kb.jibapi.global.error.exception.ErrorCode;
+import com.j2kb.jibapi.global.error.exception.InvalidTokenException;
+import com.j2kb.jibapi.global.error.exception.InvalidValueException;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +49,7 @@ public class UserLoginService {
     private User findByEmailAndPassword(LoginDto.Req req) {
         User user = findByEmail(req.getEmail());
         if (!passwordEncoder.matches(req.getPassword(), user.getPassword())) {
-            throw new IllegalArgumentException("잘못된 비밀번호입니다.");
+            throw new BusinessException("잘못된 비밀번호입니다.",  ErrorCode.UNAUTHORIZED);
         }
         return user;
     }
@@ -77,7 +81,7 @@ public class UserLoginService {
 
     public String refreshToken(String refreshToken) {
         refreshTokenRedisRepository.findById(refreshToken)
-            .orElseThrow(() -> new EntityNotFoundException("토큰 정보가 만료되었습니다. 다시 로그인해주세요."));
+            .orElseThrow(() -> new InvalidTokenException(TokenType.REFRESH_TOKEN));
         return tokenProvider.generateToken(tokenProvider.getUserPrincipal(refreshToken), TokenType.ACCESS_TOKEN);
     }
 
