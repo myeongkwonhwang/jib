@@ -79,4 +79,8 @@ public class UserLoginService {
         UserPrincipal userPrincipal = tokenProvider.getUserPrincipal(refreshToken);
         return tokenProvider.generateToken(tokenProvider.getUserPrincipal(refreshToken), TokenType.ACCESS_TOKEN);
     }
+
+    public void signout(String refreshToken) {
+        refreshTokenRedisRepository.delete(RefreshToken.builder().token(refreshToken).build());
+    }
 }

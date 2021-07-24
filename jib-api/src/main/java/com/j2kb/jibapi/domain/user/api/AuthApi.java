@@ -32,4 +32,10 @@ public class AuthApi {
     public SuccessResponse token(String refreshToken) {
         return SuccessResponse.success(userLoginService.refreshToken(refreshToken));
     }
+
+    @PostMapping("/logout")
+    public SuccessResponse logout(String refreshToken) {
+        userLoginService.signout(refreshToken);
+        return SuccessResponse.success();
+    }
 }
