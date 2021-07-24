@@ -8,7 +8,7 @@ public enum TokenType {
     ACCESS_TOKEN(60L * 30),
     REFRESH_TOKEN(60L * 60 * 24 * 14);
 
-    private final Long validTime;
+    public final Long validTime;
 
     TokenType(Long validTime) {
         this.validTime = validTime;

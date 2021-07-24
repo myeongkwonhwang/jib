@@ -68,7 +68,9 @@ public class UserLoginService {
 
         // save refresh token to redis
         refreshTokenRedisRepository.save(RefreshToken.builder()
-                .token(tokenDto.getRefreshToken()).build());
+                .token(tokenDto.getRefreshToken())
+                .timeToLive(TokenType.REFRESH_TOKEN.getValidTime())
+            .build());
 
         return tokenDto;
     }
@@ -76,7 +78,6 @@ public class UserLoginService {
     public String refreshToken(String refreshToken) {
         refreshTokenRedisRepository.findById(refreshToken)
             .orElseThrow(() -> new EntityNotFoundException("토큰 정보가 만료되었습니다. 다시 로그인해주세요."));
-        UserPrincipal userPrincipal = tokenProvider.getUserPrincipal(refreshToken);
         return tokenProvider.generateToken(tokenProvider.getUserPrincipal(refreshToken), TokenType.ACCESS_TOKEN);
     }
 
