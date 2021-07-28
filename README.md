@@ -1,5 +1,9 @@
 # JIB
 
+![JIB Homepage](https://user-images.githubusercontent.com/50407047/127366338-ab0fcb7c-0812-44d7-b6ee-bf85e2b32ff8.png)
+유학생을 위한 위치기반 장기 숙박 공유 플랫폼, JIB의 API 서버 저장소입니다.
+
+
 ## Tech
 
 ### BackEnd
