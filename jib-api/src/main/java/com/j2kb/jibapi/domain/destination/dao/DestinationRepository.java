@@ -1,8 +1,10 @@
 package com.j2kb.jibapi.domain.destination.dao;
 
 import com.j2kb.jibapi.domain.destination.entity.Destination;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -13,6 +15,5 @@ import java.util.List;
  */
 @Repository
 public interface DestinationRepository extends JpaRepository<Destination, Long>, CustomDestinationRepository {
-
-    List<Destination> findByCountryOrderByNameAsc(String country);
+    List<Destination> findByCountryAndDstNoIsGreaterThanOrderByDstNoAsc(@Param("county") String country, @Param("id") Long lastId, Pageable pageRequest);
 }

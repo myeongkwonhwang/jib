@@ -8,6 +8,7 @@ import com.j2kb.jibapi.global.error.exception.ErrorCode;
 import com.j2kb.jibapi.global.error.exception.InvalidValueException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,18 +37,18 @@ public class DestinationService extends BasicServiceSupport {
     }
 
     private Destination getDestinationByDstNo(Long dstNo) {
-        Destination destination = destinationRepository.findById(dstNo).orElseThrow(() -> new InvalidValueException(ErrorCode.ENTITY_NOT_FOUND));
-        return destination;
+        return destinationRepository.findById(dstNo).orElseThrow(() -> new InvalidValueException(ErrorCode.ENTITY_NOT_FOUND));
     }
 
     public DestinationDto.CountryRes searchCountries() {
         List<String> destinationList = destinationRepository.findByDistinctCountry();
-        DestinationDto.CountryRes res = new DestinationDto.CountryRes(destinationList);
-        return res;
+        return new DestinationDto.CountryRes(destinationList);
     }
 
-    public List<DestinationDto.DestinationRes> findDestinationByCountryOrderByNameAsc(String country) {
-        List<Destination> destinationList = destinationRepository.findByCountryOrderByNameAsc(country);
+    public List<DestinationDto.DestinationRes> findDestinationByCountryOrderByNameAsc(String country, Long lastDestinationId, int size) {
+        PageRequest pageRequest = PageRequest.of(0, size); // 페이지네이션을 위한 PageRequest, 페이지는 0으로 고정한다.
+
+        List<Destination> destinationList = destinationRepository.findByCountryAndDstNoIsGreaterThanOrderByDstNoAsc(country, 1L, pageRequest);
         return destinationList.stream().map(e -> modelMapper.map(e, DestinationDto.DestinationRes.class)).collect(Collectors.toList());
     }
 }
